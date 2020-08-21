@@ -24,8 +24,6 @@ version: 0.2
 phases:
   install:
     commands:
-      - npm uninstall -g n
-      - npm install -g n
       - n stable
       - npm update -g npm
       - npm install
