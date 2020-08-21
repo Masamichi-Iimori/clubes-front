@@ -1,0 +1,49 @@
+version: 0.2
+
+# phases:
+#   pre_build:
+#     commands:
+#       - if [ -e /tmp/node_modules.tar ]; then tar xf /tmp/node_modules.tar; fi
+#       - npm install
+#       - yarn install
+#   build:
+#     commands:
+#       - npm run build
+#       - yarn build
+#   post_build:
+#     commands:
+#       - tar cf /tmp/node_modules.tar node_modules
+# artifacts:
+#   files:
+#     - '**/*'
+#   base-directory: build
+# cache:
+#   paths:
+#     - /tmp/node_modules.tar
+
+phases:
+  install:
+    commands:
+      - npm install -g n
+      - n stable
+      - npm update -g npm
+      - npm install
+      - node -v
+      - npm -v
+      - yarn -v
+  pre_build:
+    commands:
+      - echo Entring app directory
+      - yarn install
+  build:
+    commands:
+      - echo Build started on `date`
+      - yarn build
+  post_build:
+    commands:
+      - aws s3 sync build/ s3://proclub-front-bucket --exclude '*.DS_Store' --acl public-read --cache-control public,max-age=604800
+      - aws cloudfront create-invalidation --distribution-id E2ZKC0TVXT75WM --paths /index.html /service-worker.js"
+artifacts:
+  files:
+    - '**/*'
+  base-directory: react-app/build
