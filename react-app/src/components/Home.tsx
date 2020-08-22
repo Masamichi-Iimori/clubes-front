@@ -36,7 +36,6 @@ const Home: React.FC<Props> = (props: Props) => {
   }, [])
 
   const tweetsList = tweets.map((tweet: any) => {
-    console.log(tweet)
     return (
       <ListItem alignItems="flex-start">
         <ListItemText
