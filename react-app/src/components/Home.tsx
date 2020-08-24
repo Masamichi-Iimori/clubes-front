@@ -3,7 +3,7 @@ import React, { Dispatch, useState, useEffect } from 'react';
 import Twitter from 'twitter'
 import axios from "axios";
 import { ApiBaseRepository } from '../utils/ApiBaseRepository'
-import { makeStyles, Grid } from '@material-ui/core';
+import { makeStyles, Grid, Paper } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -62,7 +62,9 @@ const Home: React.FC<Props> = (props: Props) => {
       <Grid container alignItems="center" justify="center">
         <Grid item xs={5}>
           <List className={classes.list}>
-            {tweetsList}
+            <Paper>
+              {tweetsList}
+            </Paper>
           </List>
         </Grid>
       </Grid>
