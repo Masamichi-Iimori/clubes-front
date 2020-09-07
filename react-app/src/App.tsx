@@ -2,12 +2,13 @@ import React from 'react';
 import 'App.css'
 import SignUp from 'components/sign_in'
 import Home from 'components/Home'
+import Post from 'components/post'
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
 } from 'react-router-dom';
 
 const App: React.FC = () => {
@@ -25,9 +26,13 @@ const App: React.FC = () => {
           <Route path='/sign_in'>
             <SignUp />
           </Route>
+          <Route path='/post'>
+            <Post />
+          </Route>
           <Route path='/'>
             <Home />
           </Route>
+
         </Switch>
       </div>
     </Router>
