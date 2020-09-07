@@ -3,13 +3,14 @@ import React, { Dispatch, useState, useEffect } from 'react';
 import Twitter from 'twitter'
 import axios from "axios";
 import { ApiBaseRepository } from '../utils/ApiBaseRepository'
-import { makeStyles, Grid } from '@material-ui/core';
+import { makeStyles, Grid, Paper, Avatar, ListItemAvatar } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Post from './post'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -20,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   inline: {
     display: 'inline',
   },
+  paper: {
+    margin: theme.spacing(1)
+  }
 }));
 interface OwnProps { }
 
@@ -38,24 +42,19 @@ const Home: React.FC<Props> = (props: Props) => {
 
   const tweetsList = tweets.map((tweet: any) => {
     return (
+      <Paper className={classes.paper}>
+        <ListItem alignItems="flex-start">
+          <ListItemAvatar>
+            <AccountCircleIcon />
+          </ListItemAvatar>
+          <ListItemText
+            primary={tweet.user.name}
+            secondary={tweet.text}
+          />
 
-      <ListItem alignItems="flex-start">
-        <ListItemText
-          primary={tweet.user.name}
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                {tweet.text}
-              </Typography>
-            </React.Fragment>
-          }
-        />
-      </ListItem>
+
+        </ListItem>
+      </Paper>
     )
   })
 
