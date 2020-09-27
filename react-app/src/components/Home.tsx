@@ -35,6 +35,7 @@ const Home: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     ApiBaseRepository.get('/tweets').then(response => {
       setTweets(response.data)
+      console.log(response.data)
     });
 
   }, [])
@@ -48,7 +49,7 @@ const Home: React.FC<Props> = (props: Props) => {
           </ListItemAvatar>
           <ListItemText
             primary={tweet.user.name}
-            secondary={tweet.text}
+            secondary={tweet.full_text}
           />
 
 
