@@ -2,6 +2,7 @@ import React from 'react';
 import 'App.css'
 import SignUp from 'components/sign_in'
 import Home from 'components/Home'
+import Header from 'shared/Header'
 
 import {
   BrowserRouter as Router,
@@ -12,25 +13,28 @@ import {
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <div>
+    <>
+      <Header />
+      <Router>
+        <div>
 
-        <Switch>
-          <Route path='/about'>
-            <About />
-          </Route>
-          <Route path='/users'>
-            <Users />
-          </Route>
-          <Route path='/sign_in'>
-            <SignUp />
-          </Route>
-          <Route path='/'>
-            <Home />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+          <Switch>
+            <Route path='/about'>
+              <About />
+            </Route>
+            <Route path='/users'>
+              <Users />
+            </Route>
+            <Route path='/sign_in'>
+              <SignUp />
+            </Route>
+            <Route path='/'>
+              <Home />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </>
   );
 }
 
