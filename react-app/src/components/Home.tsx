@@ -13,9 +13,8 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
   list: {
-    width: '100%',
-    //maxWidth: '36ch',
-    backgroundColor: theme.palette.background.paper,
+    maxWidth: 700,
+    minWidth: 300
   },
   inline: {
     display: 'inline',
@@ -34,9 +33,10 @@ const Home: React.FC<Props> = (props: Props) => {
   const [tweets, setTweets] = useState([]);
 
   useEffect(() => {
-    ApiBaseRepository.get('/api/v1/tweets').then(response => {
-      setTweets(response.data.data)
+    ApiBaseRepository.get('/tweets').then(response => {
+      setTweets(response.data)
     });
+
   }, [])
 
   const tweetsList = tweets.map((tweet: any) => {
