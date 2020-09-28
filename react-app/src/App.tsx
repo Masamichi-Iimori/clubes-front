@@ -1,4 +1,5 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import 'App.css'
 import SignUp from 'components/sign_in'
 import Home from 'components/Home'
@@ -11,10 +12,17 @@ import {
   Link
 } from 'react-router-dom';
 
+const useStyles = makeStyles(theme => ({
+  offset: theme.mixins.toolbar,
+}))
+
 const App: React.FC = () => {
+  const classes = useStyles();
+
   return (
     <>
       <Header />
+      <div className={classes.offset} />
       <Router>
         <div>
 
