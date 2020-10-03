@@ -14,14 +14,17 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
   list: {
-    width: '100%',
-    //maxWidth: '36ch',
-    backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   inline: {
     display: 'inline',
   },
   paper: {
+    width: '50%',
+    minWidth: 400,
     margin: theme.spacing(1)
   }
 }));
@@ -35,24 +38,23 @@ const Home: React.FC<Props> = (props: Props) => {
   const [tweets, setTweets] = useState([]);
 
   useEffect(() => {
-    ApiBaseRepository.get('/api/v1/tweets').then(response => {
-      setTweets(response.data.data)
+    ApiBaseRepository.get('/tweets').then(response => {
+      setTweets(response.data)
     });
+
   }, [])
 
-  const tweetsList = tweets.map((tweet: any) => {
+  const tweetsList = tweets.map((tweet: any, index: number) => {
     return (
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} key={index}>
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
             <AccountCircleIcon />
           </ListItemAvatar>
           <ListItemText
             primary={tweet.user.name}
-            secondary={tweet.text}
+            secondary={tweet.full_text}
           />
-
-
         </ListItem>
       </Paper>
     )
@@ -61,13 +63,9 @@ const Home: React.FC<Props> = (props: Props) => {
   return (
     <React.Fragment>
       <Post />
-      <Grid container alignItems="center" justify="center">
-        <Grid item xs={5}>
-          <List className={classes.list}>
-            {tweetsList}
-          </List>
-        </Grid>
-      </Grid>
+      <List className={classes.list}>
+        {tweetsList}
+      </List>
 
     </React.Fragment>
   )
