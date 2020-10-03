@@ -3,13 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import 'App.css'
 import SignUp from 'components/sign_in'
 import Home from 'components/Home'
+import Post from 'components/post'
 import Header from 'shared/Header'
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
 } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -35,6 +36,9 @@ const App: React.FC = () => {
             </Route>
             <Route path='/sign_in'>
               <SignUp />
+            </Route>
+            <Route path='/post'>
+              <Post />
             </Route>
             <Route path='/'>
               <Home />

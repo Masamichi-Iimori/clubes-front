@@ -9,6 +9,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
+import Post from './post'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
@@ -61,13 +62,7 @@ const Home: React.FC<Props> = (props: Props) => {
 
   return (
     <React.Fragment>
-      {/* <Grid container alignItems="center" justify="center">
-        <Grid item xs={5}>
-          <List className={classes.list}>
-            {tweetsList}
-          </List>
-        </Grid>
-      </Grid> */}
+      <Post />
       <List className={classes.list}>
         {tweetsList}
       </List>
