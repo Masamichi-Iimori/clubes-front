@@ -73,9 +73,10 @@ const Post: React.FC<Props> = (props: Props) => {
 
   const formations = ['4-3-3', '4-2-2-2',];
 
-  const voiceChats = ['PS4', 'DisCord', 'VC不可']
+  const voiceChats = ['PS4', 'DisCord', 'VC不可', '']
 
   const clubsHashtags = ['プロクラブ', 'FIFA20']
+
 
 
 
@@ -87,7 +88,9 @@ const Post: React.FC<Props> = (props: Props) => {
   const [activityEndTime, setActivityEndTime] = React.useState('0:00');
   const [voiceChat, setVoiceChat] = React.useState('');
   const [open, setOpen] = React.useState(false);
-  const articleTitle = position + "/r/n" + formation + activityFrequency + activityStartTime + activityEndTime + voiceChat
+  const [textArea, setText] = React.useState('');
+  const articleTitle = "募集ポジション：" + position + "\nフォーメーション：" + formation + "\n活動頻度：" + activityFrequency
+    + "\n活動時間帯：" + activityStartTime + "～" + activityEndTime + "\nボイスチャット：" + voiceChat + "\n" + textArea + "\n"
   const handleActivityFrequencyChange = (event: any) => {
     setActivityFrequency(event.target.value);
   };
@@ -105,6 +108,9 @@ const Post: React.FC<Props> = (props: Props) => {
   };
   const handleVoiceChatChange = (event: any) => {
     setVoiceChat(event.target.value);
+  };
+  const handleTextChange = (event: any) => {
+    setText(event.target.value);
   };
   const handleOpen = () => {
     setOpen(true);
@@ -230,11 +236,13 @@ const Post: React.FC<Props> = (props: Props) => {
 
           <TextField
             required={false}
+            value={textArea}
+            onChange={handleTextChange}
             multiline
             rows={3}
             label={"自由記述"}
             variant='outlined' />
-          <TwitterShareButton title={articleTitle} url={'http://localhost:3000/post'} hashtags={clubsHashtags}>
+          <TwitterShareButton title={articleTitle} via="kiotera_tech" url={'https://www.youtube.com'} hashtags={clubsHashtags}>
             <TwitterIcon size={32} round />
           </TwitterShareButton>
         </form>
