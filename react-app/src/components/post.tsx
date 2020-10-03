@@ -118,137 +118,137 @@ const Post: React.FC<Props> = (props: Props) => {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log(voiceChat);
-  return (<div>
-    <button type="button" onClick={handleOpen}>
-      <TwitterIcon size={32} round />投稿
+  return (
+    <div>
+      <button type="button" onClick={handleOpen}>
+        <TwitterIcon size={32} round />投稿
       </button>
-    <Modal
-      aria-labelledby="simple-modal-title"
-      aria-describedby="simple-modal-description"
-      open={open}
-      onClose={handleClose}
-    >
-      <div className={classes.paper}>
-        <form className={classes.root} noValidate autoComplete="off">
-          <div>
-            <TextField
-              id="select-activityFrequency"
-              select
-              label="活動頻度"
-              value={activityFrequency}
-              onChange={handleActivityFrequencyChange}
-              helperText="活動頻度を選択してください"
-            >
-              {activityFrequencys.map((currentActivityFrequency: string) => (
-                <MenuItem key={currentActivityFrequency} value={currentActivityFrequency}>
-                  {currentActivityFrequency}
-                </MenuItem>
-              ))}
-            </TextField>
-          </div>
-          <div>
-            <TextField
-              id="select-activityStartTime"
-              select
-              label="開始時間"
-              value={activityStartTime}
-              onChange={handleActivityStartTimeChange}
-              helperText="活動時間帯を選択したください"
-            >
-              {activityStartTimes.map((currentActivityStartTime: string) => (
-                <MenuItem key={currentActivityStartTime} value={currentActivityStartTime}>
-                  {currentActivityStartTime}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              id="select-activityEndTime"
-              select
-              label="終了時間"
-              value={activityEndTime}
-              onChange={handleActivityEndTimeChange}
-              helperText=""
-            >
-              {activityEndTimes.map((currentActivityEndTime: string) => (
-                <MenuItem key={currentActivityEndTime} value={currentActivityEndTime}>
-                  {currentActivityEndTime}
-                </MenuItem>
-              ))}
-            </TextField>
-          </div>
-          <div>
-            <TextField
-              id="select-position"
-              select
-              label="ポジション"
-              value={position}
-              onChange={handleChange}
-              helperText="募集ポジションを選択してください"
-            >
-              {positions.map((currentPosition: string) => (
-                <MenuItem key={currentPosition} value={currentPosition}>
-                  {currentPosition}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              id="select-formation"
-              select
-              label="フォーメーション"
-              value={formation}
-              onChange={handleFormationChange}
-              helperText="チームで使用するフォーメーションを選択してください"
-            >
-              {formations.map((currentFormation: string) => (
-                <MenuItem key={currentFormation} value={currentFormation}>
-                  {currentFormation}
-                </MenuItem>
-              ))}
-            </TextField>
-          </div>
-          <div>
-            <FormControl component="fieldset">
-              <FormLabel component="legend">VC選択</FormLabel>
-              <RadioGroup aria-label="position" name="position" value={voiceChat} onChange={handleVoiceChatChange} row>
-                <FormControlLabel
-                  value="PS4"
-                  control={<Radio color="primary" />}
-                  label="PS4"
-                  labelPlacement="top"
-                />
-                <FormControlLabel
-                  value="DisCord"
-                  control={<Radio color="primary" />}
-                  label="DisCord"
-                  labelPlacement="top"
-                />
-                <FormControlLabel
-                  value="VC不可"
-                  control={<Radio color="primary" />}
-                  label="VC不可"
-                  labelPlacement="top"
-                />
-              </RadioGroup>
-            </FormControl>
+      <Modal
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        open={open}
+        onClose={handleClose}
+      >
+        <div className={classes.paper}>
+          <form className={classes.root} noValidate autoComplete="off">
+            <div>
+              <TextField
+                id="select-activityFrequency"
+                select
+                label="活動頻度"
+                value={activityFrequency}
+                onChange={handleActivityFrequencyChange}
+                helperText="活動頻度を選択してください"
+              >
+                {activityFrequencys.map((currentActivityFrequency: string) => (
+                  <MenuItem key={currentActivityFrequency} value={currentActivityFrequency}>
+                    {currentActivityFrequency}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
+            <div>
+              <TextField
+                id="select-activityStartTime"
+                select
+                label="開始時間"
+                value={activityStartTime}
+                onChange={handleActivityStartTimeChange}
+                helperText="活動時間帯を選択したください"
+              >
+                {activityStartTimes.map((currentActivityStartTime: string) => (
+                  <MenuItem key={currentActivityStartTime} value={currentActivityStartTime}>
+                    {currentActivityStartTime}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                id="select-activityEndTime"
+                select
+                label="終了時間"
+                value={activityEndTime}
+                onChange={handleActivityEndTimeChange}
+                helperText=""
+              >
+                {activityEndTimes.map((currentActivityEndTime: string) => (
+                  <MenuItem key={currentActivityEndTime} value={currentActivityEndTime}>
+                    {currentActivityEndTime}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
+            <div>
+              <TextField
+                id="select-position"
+                select
+                label="ポジション"
+                value={position}
+                onChange={handleChange}
+                helperText="募集ポジションを選択してください"
+              >
+                {positions.map((currentPosition: string) => (
+                  <MenuItem key={currentPosition} value={currentPosition}>
+                    {currentPosition}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                id="select-formation"
+                select
+                label="フォーメーション"
+                value={formation}
+                onChange={handleFormationChange}
+                helperText="チームで使用するフォーメーションを選択してください"
+              >
+                {formations.map((currentFormation: string) => (
+                  <MenuItem key={currentFormation} value={currentFormation}>
+                    {currentFormation}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
+            <div>
+              <FormControl component="fieldset">
+                <FormLabel component="legend">VC選択</FormLabel>
+                <RadioGroup aria-label="position" name="position" value={voiceChat} onChange={handleVoiceChatChange} row>
+                  <FormControlLabel
+                    value="PS4"
+                    control={<Radio color="primary" />}
+                    label="PS4"
+                    labelPlacement="top"
+                  />
+                  <FormControlLabel
+                    value="DisCord"
+                    control={<Radio color="primary" />}
+                    label="DisCord"
+                    labelPlacement="top"
+                  />
+                  <FormControlLabel
+                    value="VC不可"
+                    control={<Radio color="primary" />}
+                    label="VC不可"
+                    labelPlacement="top"
+                  />
+                </RadioGroup>
+              </FormControl>
 
-          </div>
+            </div>
 
-          <TextField
-            required={false}
-            value={textArea}
-            onChange={handleTextChange}
-            multiline
-            rows={3}
-            label={"自由記述"}
-            variant='outlined' />
-          <TwitterShareButton title={articleTitle} via="kiotera_tech" url={'https://www.youtube.com'} hashtags={clubsHashtags}>
-            <TwitterIcon size={32} round />
-          </TwitterShareButton>
-        </form>
-      </div>
-    </Modal>
-  </div>
+            <TextField
+              required={false}
+              value={textArea}
+              onChange={handleTextChange}
+              multiline
+              rows={3}
+              label={"自由記述"}
+              variant='outlined' />
+            <TwitterShareButton title={articleTitle} via="kiotera_tech" url={'https://www.youtube.com'} hashtags={clubsHashtags}>
+              <TwitterIcon size={32} round />
+            </TwitterShareButton>
+          </form>
+        </div>
+      </Modal>
+    </div>
   );
 
 
