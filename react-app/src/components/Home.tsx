@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   list: {
     display: 'flex',
     flexDirection: 'column',
-    //justifyContent: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   inline: {
@@ -39,7 +39,6 @@ const Home: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     ApiBaseRepository.get('/tweets').then(response => {
       setTweets(response.data)
-      console.log(response.data)
     });
 
   }, [])
@@ -55,8 +54,6 @@ const Home: React.FC<Props> = (props: Props) => {
             primary={tweet.user.name}
             secondary={tweet.full_text}
           />
-
-
         </ListItem>
       </Paper>
     )
