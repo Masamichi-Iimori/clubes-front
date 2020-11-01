@@ -21,6 +21,10 @@ import {
   TwitterIcon,
 } from 'react-share';
 import { TextareaAutosize } from '@material-ui/core';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@material-ui/core/Button';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -37,17 +41,46 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     '& .MuiTextField-root': {
-      margin: theme.spacing(1),
+      margin: theme.spacing(1, 1, 0, 1),
       width: 200,
     },
   },
   paper: {
     margin: 'auto',
-    width: 500,
+    width: 436,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    justifyContent: 'center',
+    display: 'flex',
+  },
+  fab: {
+    margin: theme.spacing(2),
+  },
+  vcrabel: {
+    fontSize: 13,
+    margin: theme.spacing(1),
+  },
+  textField: {
+    width: 436,
+  },
+  buttonbox: {
+    margin: theme.spacing(0, 2),
+    display: 'flex',
+  },
+  tweetbutton: {
+    width: 80,
+    margin: theme.spacing(5),
+    flex: 1,
+  },
+  cancelbutton: {
+    width: 80,
+    margin: theme.spacing(5),
+    flex: 1,
+  },
+  twitterShareButton: {
+    width: "100%",
   },
 }));
 
@@ -65,17 +98,20 @@ const Post: React.FC<Props> = (props: Props) => {
 
   const activityFrequencys = ['週1～2回', '週3～4回', '週5回以上']
 
-  const activityStartTimes = ['20:00', '21:00', '22:00', '23:00']
+  const activityStartTimes = ['0:00', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00', '7:00', '8:00', '9:00', '10:00', '11:00', '12:00',
+    '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
 
-  const activityEndTimes = ['21:00', '22:00', '23:00', '0:00']
+  const activityEndTimes = ['0:00', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00', '7:00', '8:00', '9:00', '10:00', '11:00', '12:00',
+    '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
 
-  const positions = ['全て', 'FW', 'MF', 'DF', 'GK',];
+  const positions = ['全て', 'FW', 'MF', 'DF', 'GK', 'ST', 'CF', 'LW', 'RW', 'CAM', 'CM', 'LM', 'RM', 'CDM',
+    'LWB', 'RWB', 'LB', 'RB', 'CB',];
 
   const formations = ['4-3-3', '4-2-2-2',];
 
-  const voiceChats = ['PS4', 'DisCord', 'VC不可', '']
+  const voiceChats = ['PS4', 'DisCord', 'VC不可', ''];
 
-  const clubsHashtags = ['プロクラブ', 'FIFA20']
+  const clubsHashtags = ['プロクラブ', 'FIFA20'];
 
 
 
@@ -120,9 +156,13 @@ const Post: React.FC<Props> = (props: Props) => {
   };
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        <TwitterIcon size={32} round />投稿
-      </button>
+      <div >
+        <Tooltip title="クラブメンバーを募集" aria-label="クラブメンバーを募集" >
+          <Fab color="primary" className={classes.fab}>
+            <GroupAddIcon style={{ fontSize: 40 }} onClick={handleOpen} />
+          </Fab>
+        </Tooltip>
+      </div>
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
@@ -169,6 +209,7 @@ const Post: React.FC<Props> = (props: Props) => {
                 value={activityEndTime}
                 onChange={handleActivityEndTimeChange}
                 helperText=""
+
               >
                 {activityEndTimes.map((currentActivityEndTime: string) => (
                   <MenuItem key={currentActivityEndTime} value={currentActivityEndTime}>
@@ -177,7 +218,7 @@ const Post: React.FC<Props> = (props: Props) => {
                 ))}
               </TextField>
             </div>
-            <div>
+            <div >
               <TextField
                 id="select-position"
                 select
@@ -185,6 +226,7 @@ const Post: React.FC<Props> = (props: Props) => {
                 value={position}
                 onChange={handleChange}
                 helperText="募集ポジションを選択してください"
+
               >
                 {positions.map((currentPosition: string) => (
                   <MenuItem key={currentPosition} value={currentPosition}>
@@ -199,6 +241,7 @@ const Post: React.FC<Props> = (props: Props) => {
                 value={formation}
                 onChange={handleFormationChange}
                 helperText="チームで使用するフォーメーションを選択してください"
+
               >
                 {formations.map((currentFormation: string) => (
                   <MenuItem key={currentFormation} value={currentFormation}>
@@ -209,7 +252,7 @@ const Post: React.FC<Props> = (props: Props) => {
             </div>
             <div>
               <FormControl component="fieldset">
-                <FormLabel component="legend">VC選択</FormLabel>
+                <FormLabel component="legend" className={classes.vcrabel}>VC選択</FormLabel>
                 <RadioGroup aria-label="position" name="position" value={voiceChat} onChange={handleVoiceChatChange} row>
                   <FormControlLabel
                     value="PS4"
@@ -241,10 +284,19 @@ const Post: React.FC<Props> = (props: Props) => {
               multiline
               rows={3}
               label={"自由記述"}
-              variant='outlined' />
-            <TwitterShareButton title={articleTitle} via="kiotera_tech" url={'https://www.youtube.com'} hashtags={clubsHashtags}>
-              <TwitterIcon size={32} round />
-            </TwitterShareButton>
+              variant='outlined'
+              className={classes.textField}
+            />
+            <div className={classes.buttonbox}>
+              <Button variant="contained" color="primary" className={classes.tweetbutton}>
+                <TwitterShareButton className={classes.twitterShareButton} title={articleTitle} hashtags={clubsHashtags} url={'https://clubes.ml/'}
+                >
+                  募集する
+              </TwitterShareButton>
+              </Button>
+              <Button variant="contained"
+                onClick={handleClose} className={classes.cancelbutton}>キャンセル</Button>
+            </div>
           </form>
         </div>
       </Modal>
