@@ -26,6 +26,15 @@ const useStyles = makeStyles((theme) => ({
     width: '50%',
     minWidth: 400,
     margin: theme.spacing(1)
+  },
+  iconList: {
+    justifyContent: 'flex-end',
+  },
+  root: {
+    display: 'flex',
+    width: '50%',
+    minWidth: 400,
+    margin: theme.spacing(1)
   }
 }));
 interface OwnProps { }
@@ -61,13 +70,16 @@ const Home: React.FC<Props> = (props: Props) => {
   })
 
   return (
-    <React.Fragment>
-      <Post />
-      <List className={classes.list}>
-        {tweetsList}
-      </List>
 
-    </React.Fragment>
+    <List className={classes.list}>
+      <div className={classes.root}>
+        <div className={classes.iconList}>
+          <Post />
+        </div>
+      </div>
+      {tweetsList}
+    </List>
+
   )
 }
 
