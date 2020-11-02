@@ -1,30 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl'
-import FormHelperText from '@material-ui/core/FormHelperText'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormLabel from '@material-ui/core/FormLabel';
-import FormGroup from '@material-ui/core/FormGroup';
 import Modal from '@material-ui/core/Modal';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import {
   TwitterShareButton,
-  TwitterIcon,
 } from 'react-share';
-import { TextareaAutosize } from '@material-ui/core';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -47,23 +38,27 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     margin: 'auto',
-    width: 436,
+    marginTop: theme.spacing(5),
+    minWidth: 436,
+    width: '30%',
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    justifyContent: 'center',
-    display: 'flex',
   },
   fab: {
     margin: theme.spacing(2),
   },
-  vcrabel: {
+  centerGrid: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  vclabel: {
     fontSize: 13,
     margin: theme.spacing(1),
   },
   textField: {
-    width: 436,
+    minWidth: 436,
   },
   buttonbox: {
     margin: theme.spacing(0, 2),
@@ -92,8 +87,6 @@ type Props = OwnProps
 
 const Post: React.FC<Props> = (props: Props) => {
 
-
-
   const classes = useStyles();
 
   const activityFrequencys = ['週1～2回', '週3～4回', '週5回以上']
@@ -107,14 +100,9 @@ const Post: React.FC<Props> = (props: Props) => {
   const positions = ['全て', 'FW', 'MF', 'DF', 'GK', 'ST', 'CF', 'LW', 'RW', 'CAM', 'CM', 'LM', 'RM', 'CDM',
     'LWB', 'RWB', 'LB', 'RB', 'CB',];
 
-  const formations = ['4-3-3', '4-2-2-2',];
-
-  const voiceChats = ['PS4', 'DisCord', 'VC不可', ''];
+  const formations = ['そのときに応じて変更', '4-3-3', '4-2-2-2', '4-2-3-1', '4-4-2', '5-3-2', '5-4-1', '3-5-2', '3-4-3'];
 
   const clubsHashtags = ['プロクラブ', 'FIFA20'];
-
-
-
 
 
   const [position, setPosition] = React.useState('全て');
@@ -156,13 +144,11 @@ const Post: React.FC<Props> = (props: Props) => {
   };
   return (
     <div>
-      <div >
-        <Tooltip title="クラブメンバーを募集" aria-label="クラブメンバーを募集" >
-          <Fab color="primary" className={classes.fab}>
-            <GroupAddIcon style={{ fontSize: 40 }} onClick={handleOpen} />
-          </Fab>
-        </Tooltip>
-      </div>
+      <Tooltip title="クラブメンバーを募集" aria-label="クラブメンバーを募集" >
+        <Fab color="primary" className={classes.fab}>
+          <GroupAddIcon style={{ fontSize: 40 }} onClick={handleOpen} />
+        </Fab>
+      </Tooltip>
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
@@ -171,122 +157,127 @@ const Post: React.FC<Props> = (props: Props) => {
       >
         <div className={classes.paper}>
           <form className={classes.root} noValidate autoComplete="off">
-            <div>
-              <TextField
-                id="select-activityFrequency"
-                select
-                label="活動頻度"
-                value={activityFrequency}
-                onChange={handleActivityFrequencyChange}
-                helperText="活動頻度を選択してください"
-              >
-                {activityFrequencys.map((currentActivityFrequency: string) => (
-                  <MenuItem key={currentActivityFrequency} value={currentActivityFrequency}>
-                    {currentActivityFrequency}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </div>
-            <div>
-              <TextField
-                id="select-activityStartTime"
-                select
-                label="開始時間"
-                value={activityStartTime}
-                onChange={handleActivityStartTimeChange}
-                helperText="活動時間帯を選択したください"
-              >
-                {activityStartTimes.map((currentActivityStartTime: string) => (
-                  <MenuItem key={currentActivityStartTime} value={currentActivityStartTime}>
-                    {currentActivityStartTime}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                id="select-activityEndTime"
-                select
-                label="終了時間"
-                value={activityEndTime}
-                onChange={handleActivityEndTimeChange}
-                helperText=""
+            <Grid container spacing={3} justify='center' alignItems='center'>
+              <Grid item xs={12} className={classes.centerGrid}>
+                <TextField
+                  id="select-activityFrequency"
+                  select
+                  label="活動頻度"
+                  value={activityFrequency}
+                  onChange={handleActivityFrequencyChange}
+                  helperText="活動頻度を選択してください"
+                >
+                  {activityFrequencys.map((currentActivityFrequency: string) => (
+                    <MenuItem key={currentActivityFrequency} value={currentActivityFrequency}>
+                      {currentActivityFrequency}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={6} >
+                <TextField
+                  id="select-activityStartTime"
+                  select
+                  label="活動開始時間"
+                  value={activityStartTime}
+                  onChange={handleActivityStartTimeChange}
+                >
+                  {activityStartTimes.map((currentActivityStartTime: string) => (
+                    <MenuItem key={currentActivityStartTime} value={currentActivityStartTime}>
+                      {currentActivityStartTime}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={6} >
+                <TextField
+                  id="select-activityEndTime"
+                  select
+                  label="活動終了時間"
+                  value={activityEndTime}
+                  onChange={handleActivityEndTimeChange}
+                  helperText=""
 
-              >
-                {activityEndTimes.map((currentActivityEndTime: string) => (
-                  <MenuItem key={currentActivityEndTime} value={currentActivityEndTime}>
-                    {currentActivityEndTime}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </div>
-            <div >
-              <TextField
-                id="select-position"
-                select
-                label="ポジション"
-                value={position}
-                onChange={handleChange}
-                helperText="募集ポジションを選択してください"
+                >
+                  {activityEndTimes.map((currentActivityEndTime: string) => (
+                    <MenuItem key={currentActivityEndTime} value={currentActivityEndTime}>
+                      {currentActivityEndTime}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={6} >
+                <TextField
+                  id="select-position"
+                  select
+                  label="募集ポジション"
+                  value={position}
+                  onChange={handleChange}
 
-              >
-                {positions.map((currentPosition: string) => (
-                  <MenuItem key={currentPosition} value={currentPosition}>
-                    {currentPosition}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                id="select-formation"
-                select
-                label="フォーメーション"
-                value={formation}
-                onChange={handleFormationChange}
-                helperText="チームで使用するフォーメーションを選択してください"
+                >
+                  {positions.map((currentPosition: string) => (
+                    <MenuItem key={currentPosition} value={currentPosition}>
+                      {currentPosition}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={6} >
+                <TextField
+                  id="select-formation"
+                  select
+                  label="使用するフォーメーション"
+                  value={formation}
+                  onChange={handleFormationChange}
 
-              >
-                {formations.map((currentFormation: string) => (
-                  <MenuItem key={currentFormation} value={currentFormation}>
-                    {currentFormation}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </div>
-            <div>
-              <FormControl component="fieldset">
-                <FormLabel component="legend" className={classes.vcrabel}>VC選択</FormLabel>
-                <RadioGroup aria-label="position" name="position" value={voiceChat} onChange={handleVoiceChatChange} row>
-                  <FormControlLabel
-                    value="PS4"
-                    control={<Radio color="primary" />}
-                    label="PS4"
-                    labelPlacement="top"
-                  />
-                  <FormControlLabel
-                    value="DisCord"
-                    control={<Radio color="primary" />}
-                    label="DisCord"
-                    labelPlacement="top"
-                  />
-                  <FormControlLabel
-                    value="VC不可"
-                    control={<Radio color="primary" />}
-                    label="VC不可"
-                    labelPlacement="top"
-                  />
-                </RadioGroup>
-              </FormControl>
+                >
+                  {formations.map((currentFormation: string) => (
+                    <MenuItem key={currentFormation} value={currentFormation}>
+                      {currentFormation}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={12} className={classes.centerGrid}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend" className={classes.vclabel}>VC選択</FormLabel>
+                  <RadioGroup aria-label="position" name="position" value={voiceChat} onChange={handleVoiceChatChange} row>
+                    <FormControlLabel
+                      value="PS4"
+                      control={<Radio color="primary" />}
+                      label="PS4"
+                      labelPlacement="top"
+                    />
+                    <FormControlLabel
+                      value="DisCord"
+                      control={<Radio color="primary" />}
+                      label="DisCord"
+                      labelPlacement="top"
+                    />
+                    <FormControlLabel
+                      value="VC不可"
+                      control={<Radio color="primary" />}
+                      label="VC不可"
+                      labelPlacement="top"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} className={classes.centerGrid}>
+                <TextField
+                  required={false}
+                  value={textArea}
+                  onChange={handleTextChange}
+                  multiline
+                  rows={3}
+                  label={"自由記述"}
+                  variant='outlined'
+                  className={classes.textField}
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
 
-            </div>
-
-            <TextField
-              required={false}
-              value={textArea}
-              onChange={handleTextChange}
-              multiline
-              rows={3}
-              label={"自由記述"}
-              variant='outlined'
-              className={classes.textField}
-            />
             <div className={classes.buttonbox}>
               <Button variant="contained" color="primary" className={classes.tweetbutton}>
                 <TwitterShareButton className={classes.twitterShareButton} title={articleTitle} hashtags={clubsHashtags} url={'https://clubes.ml/'}
@@ -294,8 +285,7 @@ const Post: React.FC<Props> = (props: Props) => {
                   募集する
               </TwitterShareButton>
               </Button>
-              <Button variant="contained"
-                onClick={handleClose} className={classes.cancelbutton}>キャンセル</Button>
+              <Button variant="contained" onClick={handleClose} className={classes.cancelbutton}>キャンセル</Button>
             </div>
           </form>
         </div>
