@@ -10,6 +10,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Post from './post'
+import Search from './search'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,15 +28,17 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 400,
     margin: theme.spacing(1)
   },
-  iconList: {
-    justifyContent: 'flex-end',
-  },
   root: {
     display: 'flex',
     width: '50%',
     minWidth: 400,
-    margin: theme.spacing(1)
-  }
+    margin: theme.spacing(1),
+    justifyContent: "spaceBetween",
+  },
+  flexOne: {
+    flex: 1,
+    justifyContent: "spaceBetween",
+  },
 }));
 interface OwnProps { }
 
@@ -73,9 +76,8 @@ const Home: React.FC<Props> = (props: Props) => {
 
     <List className={classes.list}>
       <div className={classes.root}>
-        <div className={classes.iconList}>
-          <Post />
-        </div>
+        <Post />
+        <Search />
       </div>
       {tweetsList}
     </List>
