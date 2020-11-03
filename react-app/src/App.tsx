@@ -10,7 +10,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
 } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -28,12 +27,6 @@ const App: React.FC = () => {
         <div>
 
           <Switch>
-            <Route path='/about'>
-              <About />
-            </Route>
-            <Route path='/users'>
-              <Users />
-            </Route>
             <Route path='/sign_in'>
               <SignUp />
             </Route>
@@ -50,13 +43,5 @@ const App: React.FC = () => {
   );
 }
 
-
-const About = () => {
-  return <h2>About</h2>;
-}
-
-const Users = () => {
-  return <h2>Users</h2>;
-}
 
 export default App;  

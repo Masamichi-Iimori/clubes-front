@@ -1,14 +1,10 @@
 // components/Increment.tsx  
-import React, { Dispatch, useState, useEffect } from 'react';
-import Twitter from 'twitter'
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
 import { ApiBaseRepository } from '../utils/ApiBaseRepository'
-import { makeStyles, Grid, Paper, Avatar, ListItemAvatar } from '@material-ui/core';
+import { makeStyles, Paper, ListItemAvatar } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@material-ui/core/Typography';
 import Post from './post'
 import Search from './search'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -61,7 +57,7 @@ const Home: React.FC<Props> = (props: Props) => {
       <Paper className={classes.paper} key={index}>
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
-            <AccountCircleIcon />
+            <AccountCircleIcon style={{ fontSize: 40 }} color='action' />
           </ListItemAvatar>
           <ListItemText
             primary={tweet.user.name}
