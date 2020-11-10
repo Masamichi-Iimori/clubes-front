@@ -5,8 +5,8 @@ import Tweet from '../models/Tweet'
 import { makeStyles, Paper, ListItemAvatar, Chip, Typography, IconButton } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Post from './Post'
-import Search from './Search'
+import Post from './post'
+import Search from './search'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import Link from '@material-ui/core/Link';
@@ -98,7 +98,7 @@ const Home: React.FC<Props> = (props: Props) => {
       });
   }
 
-  const tweetsList = tweets.map((tweet: Tweet, index: number) => {
+  const tweetsList = tweets !== null && tweets.map((tweet: Tweet, index: number) => {
     let dateTime = new Date(tweet.tweeted_at * 1000);
 
     return (
@@ -156,6 +156,9 @@ const Home: React.FC<Props> = (props: Props) => {
       <List className={classes.list}>
 
         {tweetsList}
+        {tweets === null &&
+          <Typography>現在募集はありません</Typography>
+        }
       </List>
     </div>
 
