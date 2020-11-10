@@ -11,3 +11,15 @@
 ![Clubhub構成図](https://user-images.githubusercontent.com/43578455/98728555-04c9a300-23dd-11eb-93b6-49ee900b51fe.jpg)
 
 ## 使用技術
+- Golang
+- React
+- TypeScript
+- Twitter API
+- AWS
+  - lambda
+  - APIGateway
+  - SAM(serverless application model)
+  - CloudFront
+  - S3
+  - CodePipeline
+  - CodeBuild
