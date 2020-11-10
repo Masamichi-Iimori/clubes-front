@@ -1,14 +1,12 @@
 // components/Increment.tsx  
 import React, { useState, useEffect } from 'react';
-// import JSONBigInt from 'json-bigint'
 import { ApiBaseRepository } from '../utils/ApiBaseRepository'
 import Tweet from '../models/Tweet'
 import { makeStyles, Paper, ListItemAvatar, Chip, Typography, IconButton } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Post from './post'
-import Search from './search'
+import Post from './Post'
+import Search from './Search'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import Link from '@material-ui/core/Link';
@@ -86,11 +84,11 @@ const Home: React.FC<Props> = (props: Props) => {
     const positionParams = positions.join(',')
     const wordParams = word.replace("　", " ").split(' ').join(',')
 
-    if (positionParams.length != 0 && !positionParams.includes('全て')) {
+    if (positionParams.length !== 0 && !positionParams.includes('全て')) {
       query += `positions=${positionParams}&`
     }
 
-    if (wordParams.length != 0) {
+    if (wordParams.length !== 0) {
       query += `words=${wordParams}&`
     }
     ApiBaseRepository.get(`/tweets/search` + query)
@@ -132,8 +130,9 @@ const Home: React.FC<Props> = (props: Props) => {
         </ListItem>
         <div className={classes.paperBottom}>
           <div className={classes.positionTag}>
-            {tweet.positions && tweet.positions.map((position: string) =>
+            {tweet.positions && tweet.positions.map((position: string, index: number) =>
               <Chip
+                key={index}
                 color="secondary"
                 label={position}
                 className={classes.chip}

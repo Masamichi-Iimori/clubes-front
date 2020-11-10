@@ -1,25 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl'
-import FormHelperText from '@material-ui/core/FormHelperText'
 import MenuItem from '@material-ui/core/MenuItem'
-import FormLabel from '@material-ui/core/FormLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
 import Button from '@material-ui/core/Button';
-import clsx from 'clsx';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
-import { ApiBaseRepository } from '../utils/ApiBaseRepository'
 import SearchIcon from '@material-ui/icons/Search';
 import Card from '@material-ui/core/Card';
 
@@ -100,9 +89,7 @@ const Search: React.FC<Props> = (props: Props) => {
   const positions = ['全て', 'ST', 'CF', 'LW', 'RW', 'CAM', 'CM', 'LM', 'RM', 'CDM',
     'LWB', 'RWB', 'LB', 'RB', 'CB', 'GK',];
 
-
-  const voiceChats = ['PS4', 'DisCord', 'VC不可', ''];
-
+  //const voiceChats = ['PS4', 'DisCord', 'VC不可', ''];
 
   function getStyles(position: string, positionNames: string[], theme: any) {
     return {
@@ -116,7 +103,7 @@ const Search: React.FC<Props> = (props: Props) => {
   // 選択中のポジション（複数）
   const [positionNames, setPositionNames] = React.useState(['全て']);
 
-  const [voiceChat, setVoiceChat] = React.useState('');
+  //const [voiceChat, setVoiceChat] = React.useState('');
 
   const [searchWord, setSearchWord] = React.useState('');
 
@@ -128,12 +115,11 @@ const Search: React.FC<Props> = (props: Props) => {
     } else {
       setPositionNames(event.target.value);
     }
-    console.log(event.target.value)
   };
 
-  const handleVoiceChatChange = (event: any) => {
-    setVoiceChat(event.target.value);
-  };
+  // const handleVoiceChatChange = (event: any) => {
+  //   setVoiceChat(event.target.value);
+  // };
 
   const handleTextChange = (event: any) => {
     setSearchWord(event.target.value);
@@ -206,8 +192,6 @@ const Search: React.FC<Props> = (props: Props) => {
             </RadioGroup>
           </FormControl>
         </Grid> */}
-
-
 
       </Grid>
     </Card >

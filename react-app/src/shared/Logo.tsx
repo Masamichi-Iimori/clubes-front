@@ -1,7 +1,5 @@
 import React from 'react';
 import SvgIcon from '@material-ui/core/SvgIcon';
-import Icon from '@material-ui/core/Icon';
-import ClubhunIcon from "./clubhub-logo-withtitle.svg";
 
 
 type Props = {

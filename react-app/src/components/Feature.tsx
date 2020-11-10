@@ -1,7 +1,5 @@
-import React, { useState, useEffect, ReactNode } from 'react';
-import { ApiBaseRepository } from '../utils/ApiBaseRepository'
-import Tweet from '../models/Tweet'
-import { makeStyles, Paper, ListItemAvatar, Chip, Typography, IconButton } from '@material-ui/core';
+import React, { ReactNode } from 'react';
+import { makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -1,12 +1,8 @@
 // components/Increment.tsx  
-import React, { useState, useEffect } from 'react';
-import { ApiBaseRepository } from '../utils/ApiBaseRepository'
-import Tweet from '../models/Tweet'
-import { makeStyles, Paper, ListItemAvatar, Chip, Typography, IconButton, Link, Button } from '@material-ui/core';
-import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
+import React from 'react';
+import { makeStyles, Typography, Link, Button } from '@material-ui/core';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import SearchIcon from '@material-ui/icons/Search';
-import ChatIcon from '@material-ui/icons/Chat';
 import Grid from '@material-ui/core/Grid';
 import Logo from '../shared/Logo'
 import Feature from './Feature';
