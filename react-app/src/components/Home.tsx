@@ -98,7 +98,7 @@ const Home: React.FC<Props> = (props: Props) => {
       });
   }
 
-  const tweetsList = tweets.map((tweet: Tweet, index: number) => {
+  const tweetsList = tweets !== null && tweets.map((tweet: Tweet, index: number) => {
     let dateTime = new Date(tweet.tweeted_at * 1000);
 
     return (
@@ -156,6 +156,9 @@ const Home: React.FC<Props> = (props: Props) => {
       <List className={classes.list}>
 
         {tweetsList}
+        {tweets === null &&
+          <Typography>現在募集はありません</Typography>
+        }
       </List>
     </div>
 
