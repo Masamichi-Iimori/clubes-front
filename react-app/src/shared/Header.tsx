@@ -3,11 +3,9 @@ import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Logo from './Logo'
-import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -139,7 +137,7 @@ export default function Header() {
             {/* <Typography variant="h6" className={classes.title}>
               Clubes
             </Typography> */}
-            <Logo width={160} color="primary" />
+            <Logo width={160} />
             {/* <Typography variant="h6" className={classes.title}>
               プロクラブ検索サービス
             </Typography> */}

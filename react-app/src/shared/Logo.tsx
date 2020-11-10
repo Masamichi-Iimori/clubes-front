@@ -1,13 +1,11 @@
 import React from 'react';
 import SvgIcon from '@material-ui/core/SvgIcon';
-import Icon from '@material-ui/core/Icon';
-import ClubhunIcon from "./clubhub-logo-withtitle.svg";
 
 
 type Props = {
   height?: number | string
   width?: number | string
-  color?: "inherit" | "disabled" | "action" | "primary" | "secondary" | "error";
+  isColor?: boolean;
 }
 
 const Logo: React.FC<Props> = (props: Props) => {
@@ -18,9 +16,8 @@ const Logo: React.FC<Props> = (props: Props) => {
         width: props.width
       }}
       viewBox="0 0 12000 2590"
-      color={props.color}
     >
-      <g id="layer101" fill="#363636" stroke="none">
+      <g id="layer101" fill={props.isColor ? "#363636" : "white"} stroke="none">
         {/* <g id="layer101" fill="white" stroke="none"> */}
 
         <path d="M4092 2040 c-41 -10 -113 -37 -160 -60 -71 -35 -104 -60 -178 -134 -75 -76 -98 -106 -137 -186 -201 -407 -39 -890 358 -1069 160 -73 401 -80 557 -17 75 30 161 82 204 122 67 62 34 154 -54 154 -26 0 -55 -13 -109 -50 -104 -73 -165 -92 -293 -93 -155 -2 -267 41 -373 142 -131 124 -187 257 -187 440 0 180 55 316 175 436 107 107 219 156 364 158 120 2 224 -31 341 -107 84 -56 152 -44 166 29 10 57 -15 88 -126 153 -165 96 -366 126 -548 82z" />
@@ -31,24 +28,17 @@ const Logo: React.FC<Props> = (props: Props) => {
         <path d="M5229 2026 c-81 -29 -145 -103 -174 -200 -23 -76 -22 -1211 0 -1243 32 -45 129 -38 154 10 7 15 12 195 13 597 3 560 4 576 24 610 25 44 56 60 116 60 38 0 50 5 67 26 41 52 20 120 -45 144 -35 14 -112 12 -155 -4z" />
         <path d="M8346 2021 c-9 -10 -21 -33 -26 -52 -15 -52 -12 -1315 3 -1359 21 -61 102 -80 154 -36 l28 24 3 256 3 255 50 -34 c145 -99 347 -112 506 -31 55 28 142 115 171 172 50 98 55 134 60 427 2 153 1 294 -3 313 -14 77 -98 111 -158 64 l-25 -20 -4 -307 c-4 -295 -5 -310 -27 -360 -26 -59 -90 -123 -148 -149 -27 -13 -66 -18 -138 -18 -108 -1 -145 11 -214 70 -65 55 -65 55 -71 422 l-5 334 -28 24 c-36 31 -105 33 -131 5z" />
       </g>
-      <g id="layer102" fill="#4bcdad" stroke="none">
+      <g id="layer102" fill={props.isColor ? "#1B998B" : "white"} stroke="none">
         {/* <g id="layer102" fill="white" stroke="none"> */}
         <path d="M10 2260 l0 -320 135 0 135 0 0 -350 0 -350 480 0 480 0 0 -300 0 -300 -130 0 -130 0 0 -315 0 -315 320 0 320 0 0 315 0 315 -135 0 -135 0 0 300 0 300 485 0 485 0 0 350 0 350 135 0 135 0 -2 318 -3 317 -317 3 -318 2 0 -320 0 -320 135 0 135 0 0 -295 0 -295 -435 0 -435 0 0 295 0 295 135 0 135 0 0 320 0 320 -320 0 -320 0 0 -320 0 -320 130 0 130 0 0 -295 0 -295 -430 0 -430 0 0 295 0 294 133 3 132 3 0 315 0 315 -317 3 -318 2 0 -320z" />
       </g>
 
     </SvgIcon >
-    // <Icon
-    //   style={{
-    //     height: props.height,
-    //     width: props.width
-    //   }}>
-    //   <img src={ClubhunIcon} />
-    // </Icon>
   );
 }
 
-Logo.defaultProps = {
-  color: "inherit"
-}
+// Logo.defaultProps = {
+//   color: "inherit"
+// }
 
 export default Logo;
