@@ -7,6 +7,7 @@ function createAxiosInstance() {
     // この第一引数オブジェクトで設定を定義
 
     // axios で通信する時の URL の頭を決める。大体ドメインとAPI用URL接頭辞
+    //baseURL: "http://127.0.0.1:3000",
     baseURL: process.env.REACT_APP_API_BASE_URL,
   });
 

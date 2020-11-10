@@ -1,18 +1,27 @@
 // components/Increment.tsx  
 import React, { useState, useEffect } from 'react';
 import { ApiBaseRepository } from '../utils/ApiBaseRepository'
-import { makeStyles, Paper, ListItemAvatar } from '@material-ui/core';
+import Tweet from '../models/Tweet'
+import { makeStyles, Paper, ListItemAvatar, Chip, Typography, IconButton } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Post from './post'
+import Post from './Post'
+import Search from './Search'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ApartmentIcon from '@material-ui/icons/Apartment';
+import Link from '@material-ui/core/Link';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+
+  },
   list: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   inline: {
@@ -23,15 +32,35 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 400,
     margin: theme.spacing(1)
   },
-  iconList: {
-    justifyContent: 'flex-end',
-  },
-  root: {
+  buttonArea: {
     display: 'flex',
     width: '50%',
     minWidth: 400,
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
+    justifyContent: "space-around",
+    alignItems: "center"
+  },
+  chip: {
+    margin: theme.spacing(0.5),
+  },
+  positionTag: {
+    //margin: theme.spacing(0, 7)
+  },
+  userInfo: {
+    display: "flex",
+    marginBottom: theme.spacing(2)
+  },
+  paperUpper: {
+    display: "flex",
+    justifyContent: "space-between",
+    //margin: theme.spacing(0, 7)
+  },
+  paperBottom: {
+    display: "flex",
+    justifyContent: "space-between",
+    margin: theme.spacing(0, 7)
   }
+
 }));
 interface OwnProps { }
 
@@ -40,43 +69,113 @@ type Props = OwnProps
 const Home: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
 
-  const [tweets, setTweets] = useState([]);
+  const [tweets, setTweets] = useState<Array<Tweet>>([]);
 
   useEffect(() => {
-    ApiBaseRepository.get('/tweets').then(response => {
-      setTweets(response.data)
+    ApiBaseRepository.get('/tweets', { transformResponse: [data => data] }).then(response => {
+      const JSONbig = require('json-bigint')({ "storeAsString": true })
+      setTweets(JSONbig.parse(response.data))
     });
 
   }, [])
 
-  const tweetsList = tweets.map((tweet: any, index: number) => {
+  const handleSearch = (positions: string[], word: string) => {
+    var query = '?'
+    const positionParams = positions.join(',')
+    const wordParams = word.replace("　", " ").split(' ').join(',')
+
+    if (positionParams.length !== 0 && !positionParams.includes('全て')) {
+      query += `positions=${positionParams}&`
+    }
+
+    if (wordParams.length !== 0) {
+      query += `words=${wordParams}&`
+    }
+    ApiBaseRepository.get(`/tweets/search` + query)
+      .then(response => {
+        const JSONbig = require('json-bigint')({ "storeAsString": true })
+        setTweets(JSONbig.parse(response.data))
+      });
+  }
+
+  const tweetsList = tweets.map((tweet: Tweet, index: number) => {
+    let dateTime = new Date(tweet.tweeted_at * 1000);
+
     return (
       <Paper className={classes.paper} key={index}>
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
-            <AccountCircleIcon style={{ fontSize: 40 }} color='action' />
+            {
+              tweet.is_club ?
+                <ApartmentIcon style={{ fontSize: 40 }} color='action' /> :
+                <AccountCircleIcon style={{ fontSize: 40 }} color='action' />
+            }
           </ListItemAvatar>
-          <ListItemText
-            primary={tweet.user.name}
-            secondary={tweet.full_text}
-          />
+          <div >
+            <div className={classes.paperUpper}>
+              <div className={classes.userInfo}>
+                <Typography color="textPrimary">{tweet.user.name}</Typography>
+                {/* <Typography color="textSecondary">@{tweet.user.screen_name}</Typography> */}
+
+                <Link href={`https://twitter.com/${tweet.user.screen_name}`} target="_blank" color="textSecondary">
+                  @{tweet.user.screen_name}
+                </Link>
+              </div>
+              <Typography color="textSecondary">{getStringFromDate(dateTime)}</Typography>
+            </div>
+
+            <Typography color="textPrimary">{tweet.full_text}</Typography>
+          </div>
+
         </ListItem>
+        <div className={classes.paperBottom}>
+          <div className={classes.positionTag}>
+            {tweet.positions && tweet.positions.map((position: string, index: number) =>
+              <Chip
+                key={index}
+                color="secondary"
+                label={position}
+                className={classes.chip}
+              />
+            )}
+          </div>
+          <IconButton edge="start" color="inherit" aria-label="menu" href={`https://twitter.com/${tweet.user.screen_name}/status/${tweet.tweet_id}`} target="_blank">
+            <OpenInNewIcon />
+          </IconButton>
+        </div>
       </Paper>
     )
   })
 
   return (
-
-    <List className={classes.list}>
-      <div className={classes.root}>
-        <div className={classes.iconList}>
-          <Post />
-        </div>
+    <div className={classes.root}>
+      <div className={classes.buttonArea}>
+        <Search handleSearch={handleSearch} />
+        <Post />
       </div>
-      {tweetsList}
-    </List>
+      <List className={classes.list}>
+
+        {tweetsList}
+      </List>
+    </div>
 
   )
 }
+
+function getStringFromDate(date: Date) {
+
+  var hour_str = date.getHours().toString();
+  var minute_str = date.getMinutes().toString();
+
+  // 時刻の表示だけにする
+  hour_str = ('0' + hour_str).slice(-2);
+  minute_str = ('0' + minute_str).slice(-2);
+
+  var format_str = 'hh:mm';
+  format_str = format_str.replace(/hh/g, hour_str);
+  format_str = format_str.replace(/mm/g, minute_str);
+
+  return format_str;
+};
 
 export default Home; 
