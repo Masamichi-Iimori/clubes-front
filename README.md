@@ -9,6 +9,9 @@
 
 ## インフラ構成図
 ![Clubhub構成図](https://user-images.githubusercontent.com/43578455/98728555-04c9a300-23dd-11eb-93b6-49ee900b51fe.jpg)
+①clubes-front: フロントエンドのリポジトリ
+②clubes-api-go: GoとLambdaによるバックエンドのリポジトリ
+③clubes-crawl-tweet: GoとLambdaとCloudWatchで、５分に一回ツイッターのAPIを叩いてDBに入れる処理のリポジトリ
 
 ## 使用技術
 - Golang
