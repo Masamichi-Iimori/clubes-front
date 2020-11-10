@@ -9,6 +9,7 @@
 
 ## インフラ構成図
 ![Clubhub構成図](https://user-images.githubusercontent.com/43578455/98728555-04c9a300-23dd-11eb-93b6-49ee900b51fe.jpg)
+リポジトリを以下のように３つに分割しました  
 ①clubes-front: フロントエンドのリポジトリ←このリポジトリです  
 ②[clubes-api-go](https://github.com/Masamichi-Iimori/clubes-api-lambda): GoとLambdaによるバックエンドのリポジトリ  
 ③[clubes-crawl-tweet](https://github.com/Masamichi-Iimori/clubes-crawl-tweet): GoとLambdaとCloudWatchで、５分に一回ツイッターのAPIを叩いてDBに入れる処理のリポジトリ  
