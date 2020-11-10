@@ -4,9 +4,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'
@@ -15,14 +12,6 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
-import {
-  TwitterShareButton,
-  TwitterIcon,
-} from 'react-share';
-import { TextareaAutosize } from '@material-ui/core';
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
-import Fab from '@material-ui/core/Fab';
-import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
 import Input from '@material-ui/core/Input';
@@ -31,6 +20,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import { ApiBaseRepository } from '../utils/ApiBaseRepository'
+import SearchIcon from '@material-ui/icons/Search';
+import Card from '@material-ui/core/Card';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -69,36 +60,37 @@ const useStyles = makeStyles((theme) => ({
     margin: 2,
   },
   formControl: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
     minWidth: 120,
     maxWidth: 300,
+    display: 'flex',
+    justifyContent: 'center'
   },
   vclabel: {
     fontSize: 13,
     margin: theme.spacing(1),
   },
+  freeWordSearch: {
+    margin: theme.spacing(5),
+  },
+  searchButton: {
+    margin: theme.spacing(2),
+  }
 }));
 
 
 interface OwnProps {
+  handleSearch: (positions: string[], word: string) => void;
 }
 
 type Props = OwnProps
 
-
-
 const Search: React.FC<Props> = (props: Props) => {
-
-
 
   const classes = useStyles();
   const theme = useTheme();
-  const [tweets, setTweets] = useState([]);
 
   useEffect(() => {
-    // ApiBaseRepository.get('/tweets/search').then(response => {
-    //   setTweets(response.data)
-    // });
 
   }, [])
 
@@ -109,6 +101,7 @@ const Search: React.FC<Props> = (props: Props) => {
 
   const voiceChats = ['PS4', 'DisCord', 'VC不可', ''];
 
+
   function getStyles(position: string, positionNames: string[], theme: any) {
     return {
       fontWeight:
@@ -118,82 +111,105 @@ const Search: React.FC<Props> = (props: Props) => {
     };
   }
 
+  // 選択中のポジション（複数）
   const [positionNames, setPositionNames] = React.useState(['全て']);
+
   const [voiceChat, setVoiceChat] = React.useState('');
+
+  const [searchWord, setSearchWord] = React.useState('');
+
   const handleChange = (event: any) => {
-    setPositionNames(event.target.value);
+    if (event.target.value.includes('全て') && !positionNames.includes('全て')) {
+      setPositionNames(['全て'])
+    } else if (positionNames.includes('全て')) {
+      setPositionNames(event.target.value.filter((value: string) => value !== '全て'))
+    }
+    else {
+      setPositionNames(event.target.value);
+    }
+    console.log(event.target.value)
   };
+
   const handleVoiceChatChange = (event: any) => {
     setVoiceChat(event.target.value);
   };
+
+  const handleTextChange = (event: any) => {
+    setSearchWord(event.target.value);
+  };
   return (
-    <div>
-      <Grid container spacing={3} justify='center' alignItems='center'>
-        <FormControl className={classes.formControl}>
-          <InputLabel id="demo-mutiple-chip-label">Chip</InputLabel>
-          <Select
-            labelId="searchPositionLabel"
-            id="searchPosition"
-            multiple
-            value={positionNames}
-            onChange={handleChange}
-            input={<Input id="selectSearchPosition" />}
-            renderValue={(selected: string[] | unknown) => {
-              console.log(selected)
-              return (
+    <Card variant='outlined'>
+      <Grid container spacing={1} justify="center" alignItems="center">
+        <Grid item xs={12} sm={6}>
+          <TextField id="freetext" label="自由検索" value={searchWord} variant="outlined" size="small" onChange={handleTextChange} className={classes.freeWordSearch} />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="demo-mutiple-chip-label">ポジション選択</InputLabel>
+            <Select
+              labelId="searchPositionLabel"
+              id="searchPosition"
+              multiple
+              value={positionNames}
+              onChange={handleChange}
+              input={<Input id="selectSearchPosition" />}
+              renderValue={(selected: string[] | unknown) => (
                 selected &&
                 <div className={classes.chips}>
-                  {(selected as string[]).map((value: any) => (
+                  {(selected as string[]).map((value: string) => (
                     <Chip key={value} label={value} className={classes.chip} />
                   ))}
                 </div>
-              )
-            }
-            }
-          // MenuProps={MenuProps}
-          >
-            {positions.map((position) => (
-              <MenuItem key={position} value={position} style={getStyles(position, positionNames, theme)}>
-                {position}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+              )}
+            >
+              {positions.map((position) => (
+                <MenuItem key={position} value={position} style={getStyles(position, positionNames, theme)}>
+                  {position}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={2} sm={6} />
+        <Grid item xs={8} sm={6}>
+          <Button id="search" variant="contained" color="primary" startIcon={<SearchIcon />} className={classes.searchButton} onClick={() => props.handleSearch(positionNames, searchWord)}>
+            検索する
+　　　      </Button>
+        </Grid>
+        <Grid item xs={2} sm={6} />
+
+        {/* VCはとりあえずなし。（VCを募集内容に含めているツイートが少ないため）
+        <Grid item xs={6} >
+          <FormControl component="fieldset" className={classes.formControl}>
+            <FormLabel component="legend" className={classes.vclabel}>VC選択</FormLabel>
+            <RadioGroup aria-label="position" name="position" value={voiceChat} onChange={handleVoiceChatChange} row>
+              <FormControlLabel
+                value="PS4"
+                control={<Radio color="primary" />}
+                label="PS4"
+                labelPlacement="top"
+              />
+              <FormControlLabel
+                value="DisCord"
+                control={<Radio color="primary" />}
+                label="DisCord"
+                labelPlacement="top"
+              />
+              <FormControlLabel
+                value="VC不可"
+                control={<Radio color="primary" />}
+                label="VC不可"
+                labelPlacement="top"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Grid> */}
+
+
+
       </Grid>
-      <Grid item xs={12} >
-        <FormControl component="fieldset">
-          <FormLabel component="legend" className={classes.vclabel}>VC選択</FormLabel>
-          <RadioGroup aria-label="position" name="position" value={voiceChat} onChange={handleVoiceChatChange} row>
-            <FormControlLabel
-              value="PS4"
-              control={<Radio color="primary" />}
-              label="PS4"
-              labelPlacement="top"
-            />
-            <FormControlLabel
-              value="DisCord"
-              control={<Radio color="primary" />}
-              label="DisCord"
-              labelPlacement="top"
-            />
-            <FormControlLabel
-              value="VC不可"
-              control={<Radio color="primary" />}
-              label="VC不可"
-              labelPlacement="top"
-            />
-          </RadioGroup>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} >
-        <TextField id="freetext" label="自由検索" variant="outlined" />
-      </Grid>
-      <Grid item xs={12} >
-        <Button id="search" variant="contained" color="primary">
-          検索する
-　　　</Button>
-      </Grid>
-    </div >
+    </Card >
   );
 
 
