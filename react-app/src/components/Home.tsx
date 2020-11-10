@@ -5,8 +5,8 @@ import Tweet from '../models/Tweet'
 import { makeStyles, Paper, ListItemAvatar, Chip, Typography, IconButton } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Post from './Post'
-import Search from './Search'
+import Post from './post'
+import Search from './search'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import Link from '@material-ui/core/Link';
