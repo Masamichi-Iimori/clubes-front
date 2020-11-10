@@ -72,6 +72,8 @@ const useStyles = makeStyles((theme) => ({
   },
   freeWordSearch: {
     margin: theme.spacing(5),
+    minWidth: 150
+
   },
   searchButton: {
     margin: theme.spacing(2),
@@ -123,8 +125,7 @@ const Search: React.FC<Props> = (props: Props) => {
       setPositionNames(['全て'])
     } else if (positionNames.includes('全て')) {
       setPositionNames(event.target.value.filter((value: string) => value !== '全て'))
-    }
-    else {
+    } else {
       setPositionNames(event.target.value);
     }
     console.log(event.target.value)
@@ -140,11 +141,11 @@ const Search: React.FC<Props> = (props: Props) => {
   return (
     <Card variant='outlined'>
       <Grid container spacing={1} justify="center" alignItems="center">
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} md={6}>
           <TextField id="freetext" label="自由検索" value={searchWord} variant="outlined" size="small" onChange={handleTextChange} className={classes.freeWordSearch} />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} md={6}>
           <FormControl className={classes.formControl}>
             <InputLabel id="demo-mutiple-chip-label">ポジション選択</InputLabel>
             <Select
@@ -171,13 +172,13 @@ const Search: React.FC<Props> = (props: Props) => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={2} sm={6} />
-        <Grid item xs={8} sm={6}>
+        <Grid item xs={2} md={6} />
+        <Grid item xs={8} md={6}>
           <Button id="search" variant="contained" color="primary" startIcon={<SearchIcon />} className={classes.searchButton} onClick={() => props.handleSearch(positionNames, searchWord)}>
             検索する
 　　　      </Button>
         </Grid>
-        <Grid item xs={2} sm={6} />
+        <Grid item xs={2} md={6} />
 
         {/* VCはとりあえずなし。（VCを募集内容に含めているツイートが少ないため）
         <Grid item xs={6} >

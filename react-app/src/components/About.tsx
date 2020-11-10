@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ApiBaseRepository } from '../utils/ApiBaseRepository'
 import Tweet from '../models/Tweet'
-import { makeStyles, Paper, ListItemAvatar, Chip, Typography, IconButton } from '@material-ui/core';
+import { makeStyles, Paper, ListItemAvatar, Chip, Typography, IconButton, Link, Button } from '@material-ui/core';
 import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import SearchIcon from '@material-ui/icons/Search';
@@ -10,6 +10,7 @@ import ChatIcon from '@material-ui/icons/Chat';
 import Grid from '@material-ui/core/Grid';
 import Logo from '../shared/Logo'
 import Feature from './Feature';
+import { Link as ReactLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,8 +32,9 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 400,
     margin: theme.spacing(1)
   },
-  buttonArea: {
+  titleArea: {
     display: 'flex',
+    flexDirection: 'column',
     width: '50%',
     minWidth: 400,
     margin: theme.spacing(1),
@@ -61,6 +63,14 @@ const useStyles = makeStyles((theme) => ({
   },
   features: {
     margin: theme.spacing(3, 10)
+  },
+  subtitle: {
+    padding: theme.spacing(2)
+  },
+  copyright: {
+    position: "absolute",
+    bottom: 0,
+    marginBottom: theme.spacing(3)
   }
 
 }));
@@ -73,28 +83,56 @@ const About: React.FC<Props> = (props: Props) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.buttonArea}>
-        <Logo width={400} height="100%" />
+      <div className={classes.titleArea}>
+        <Logo width={400} height="100%" isColor />
+        <Typography color="textPrimary" align="center" className={classes.subtitle}>
+          プロクラブマッチングアプリ
+        </Typography>
       </div>
-      <Grid container spacing={3} className={classes.features}>
-        <Grid item xs={6}>
+      <Grid container spacing={3} justify="center" className={classes.features}>
+        <Grid item lg={1} />
+
+        <Grid item lg={5} sm={12} xs={12}>
           <Feature
             number={1}
             normalWord="募集を検索する"
-            subTitle={"This site will automatically match you with the people who has same interest, hobby, or life style. So you don't have to find the right person yourself! We will do that for you."}
+            subTitle="プロクラブのメンバーを募集している人を見つけ、一緒にプレイしよう。自分の希望しているポジションで募集を絞り込むことができます。"
             icon={<SearchIcon color="primary" style={{ fontSize: 50 }} />}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item lg={5} sm={12} xs={12}>
           <Feature
             number={1}
             normalWord='メンバーを募集する'
-            subTitle={"This site will automatically match you with the people who has same interest, hobby, or life style. So you don't have to find the right person yourself! We will do that for you."}
+            subTitle="自分のクラブに人数が足りないときは、メンバーを募集しよう。募集条件を指定して、ツイッターからメンバーの募集ができます。"
             icon={<GroupAddIcon color="primary" style={{ fontSize: 50 }} />}
           />
         </Grid>
+        <Grid item lg={1} />
+
+
       </Grid>
-    </div>
+      <Button
+        variant="contained"
+        color="primary"
+        component={ReactLink}
+        to="/"
+      >
+        始める
+      </Button>
+      <div className={classes.copyright}>
+        <Typography color="textSecondary" align="center" >
+          製作者：
+            <Link href={`https://twitter.com/PFC_masamichhhi`} target="_blank" color="textSecondary">
+            @PFC_masamichhhi
+            </Link>
+          <Link href={`https://twitter.com/@toga_3535`} target="_blank" color="textSecondary">
+            @toga_3535
+            </Link>
+        </Typography>
+
+      </div>
+    </div >
 
   )
 }

@@ -85,6 +85,7 @@ const Home: React.FC<Props> = (props: Props) => {
     var query = '?'
     const positionParams = positions.join(',')
     const wordParams = word.replace("　", " ").split(' ').join(',')
+
     if (positionParams.length != 0 && !positionParams.includes('全て')) {
       query += `positions=${positionParams}&`
     }
@@ -116,7 +117,11 @@ const Home: React.FC<Props> = (props: Props) => {
             <div className={classes.paperUpper}>
               <div className={classes.userInfo}>
                 <Typography color="textPrimary">{tweet.user.name}</Typography>
-                <Typography color="textSecondary">@{tweet.user.screen_name}</Typography>
+                {/* <Typography color="textSecondary">@{tweet.user.screen_name}</Typography> */}
+
+                <Link href={`https://twitter.com/${tweet.user.screen_name}`} target="_blank" color="textSecondary">
+                  @{tweet.user.screen_name}
+                </Link>
               </div>
               <Typography color="textSecondary">{getStringFromDate(dateTime)}</Typography>
             </div>
@@ -160,23 +165,14 @@ const Home: React.FC<Props> = (props: Props) => {
 
 function getStringFromDate(date: Date) {
 
-  var year_str = date.getFullYear();
-  //月だけ+1すること
-  var month_str = (1 + date.getMonth()).toString();
-  var day_str = date.getDate().toString();
   var hour_str = date.getHours().toString();
   var minute_str = date.getMinutes().toString();
-  var second_str = date.getSeconds().toString();
 
-  month_str = ('0' + month_str).slice(-2);
-  day_str = ('0' + day_str).slice(-2);
+  // 時刻の表示だけにする
   hour_str = ('0' + hour_str).slice(-2);
   minute_str = ('0' + minute_str).slice(-2);
-  second_str = ('0' + second_str).slice(-2);
 
-  var format_str = 'MM月DD日 hh:mm';
-  format_str = format_str.replace(/MM/g, month_str);
-  format_str = format_str.replace(/DD/g, day_str);
+  var format_str = 'hh:mm';
   format_str = format_str.replace(/hh/g, hour_str);
   format_str = format_str.replace(/mm/g, minute_str);
 

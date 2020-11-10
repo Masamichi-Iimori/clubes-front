@@ -139,7 +139,7 @@ export default function Header() {
             {/* <Typography variant="h6" className={classes.title}>
               Clubes
             </Typography> */}
-            <Logo width={160} color="primary" />
+            <Logo width={160} />
             {/* <Typography variant="h6" className={classes.title}>
               プロクラブ検索サービス
             </Typography> */}
