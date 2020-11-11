@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     margin: 'auto',
     marginTop: theme.spacing(5),
-    minWidth: 436,
+    minWidth: 340,
     width: '30%',
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
@@ -57,19 +57,25 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   textField: {
-    minWidth: 436,
+    minWidth: 340,
   },
   buttonbox: {
-    margin: theme.spacing(0, 2),
+    margin: theme.spacing(0, 1),
     display: 'flex',
+    justifyContent: 'center'
+
   },
   tweetbutton: {
-    width: 80,
+    minWidth: 120,
     margin: theme.spacing(5),
     flex: 1,
   },
+  selecter: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
   cancelbutton: {
-    width: 80,
+    minWidth: 120,
     margin: theme.spacing(5),
     flex: 1,
   },
@@ -156,7 +162,7 @@ const Post: React.FC<Props> = (props: Props) => {
       >
         <div className={classes.paper}>
           <form className={classes.root} noValidate autoComplete="off">
-            <Grid container spacing={3} justify='center' alignItems='center'>
+            <Grid container spacing={3} justify='center' alignItems='center' >
               <Grid item xs={12} className={classes.centerGrid}>
                 <TextField
                   id="select-activityFrequency"
@@ -173,69 +179,73 @@ const Post: React.FC<Props> = (props: Props) => {
                   ))}
                 </TextField>
               </Grid>
-              <Grid item xs={6} >
-                <TextField
-                  id="select-activityStartTime"
-                  select
-                  label="活動開始時間"
-                  value={activityStartTime}
-                  onChange={handleActivityStartTimeChange}
-                >
-                  {activityStartTimes.map((currentActivityStartTime: string) => (
-                    <MenuItem key={currentActivityStartTime} value={currentActivityStartTime}>
-                      {currentActivityStartTime}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={6} >
-                <TextField
-                  id="select-activityEndTime"
-                  select
-                  label="活動終了時間"
-                  value={activityEndTime}
-                  onChange={handleActivityEndTimeChange}
-                  helperText=""
+              <Grid item xs={12}>
+                <div className={classes.selecter}>
+                  <TextField
+                    id="select-activityStartTime"
+                    select
+                    label="活動開始時間"
+                    value={activityStartTime}
+                    onChange={handleActivityStartTimeChange}
+                  >
+                    {activityStartTimes.map((currentActivityStartTime: string) => (
+                      <MenuItem key={currentActivityStartTime} value={currentActivityStartTime}>
+                        {currentActivityStartTime}
+                      </MenuItem>
+                    ))}
+                  </TextField>
 
-                >
-                  {activityEndTimes.map((currentActivityEndTime: string) => (
-                    <MenuItem key={currentActivityEndTime} value={currentActivityEndTime}>
-                      {currentActivityEndTime}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={6} >
-                <TextField
-                  id="select-position"
-                  select
-                  label="募集ポジション"
-                  value={position}
-                  onChange={handleChange}
+                  <TextField
+                    id="select-activityEndTime"
+                    select
+                    label="活動終了時間"
+                    value={activityEndTime}
+                    onChange={handleActivityEndTimeChange}
+                    helperText=""
 
-                >
-                  {positions.map((currentPosition: string) => (
-                    <MenuItem key={currentPosition} value={currentPosition}>
-                      {currentPosition}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={6} >
-                <TextField
-                  id="select-formation"
-                  select
-                  label="使用するフォーメーション"
-                  value={formation}
-                  onChange={handleFormationChange}
+                  >
+                    {activityEndTimes.map((currentActivityEndTime: string) => (
+                      <MenuItem key={currentActivityEndTime} value={currentActivityEndTime}>
+                        {currentActivityEndTime}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
 
-                >
-                  {formations.map((currentFormation: string) => (
-                    <MenuItem key={currentFormation} value={currentFormation}>
-                      {currentFormation}
-                    </MenuItem>
-                  ))}
-                </TextField>
+              </Grid>
+              <Grid item xs={12} >
+                <div className={classes.selecter}>
+                  <TextField
+                    id="select-position"
+                    select
+                    label="募集ポジション"
+                    value={position}
+                    onChange={handleChange}
+
+                  >
+                    {positions.map((currentPosition: string) => (
+                      <MenuItem key={currentPosition} value={currentPosition}>
+                        {currentPosition}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+
+                  <TextField
+                    id="select-formation"
+                    select
+                    label="フォーメーション"
+                    value={formation}
+                    onChange={handleFormationChange}
+
+                  >
+                    {formations.map((currentFormation: string) => (
+                      <MenuItem key={currentFormation} value={currentFormation}>
+                        {currentFormation}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
+
               </Grid>
               <Grid item xs={12} className={classes.centerGrid}>
                 <FormControl component="fieldset">
