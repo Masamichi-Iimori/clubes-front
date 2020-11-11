@@ -64,9 +64,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2)
   },
   copyright: {
-    position: "absolute",
+    position: "relative",
     bottom: 0,
-    marginBottom: theme.spacing(3)
+    margin: theme.spacing(5, 0)
   }
 
 }));
@@ -80,7 +80,7 @@ const About: React.FC<Props> = (props: Props) => {
   return (
     <div className={classes.root}>
       <div className={classes.titleArea}>
-        <Logo width={400} height="100%" isColor />
+        <Logo width={370} height="100%" isColor />
         <Typography color="textPrimary" align="center" className={classes.subtitle}>
           プロクラブマッチングアプリ
         </Typography>
