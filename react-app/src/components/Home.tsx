@@ -74,7 +74,7 @@ const Home: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     ApiBaseRepository.get('/tweets', { transformResponse: [data => data] }).then(response => {
       const JSONbig = require('json-bigint')({ "storeAsString": true })
-      setTweets(JSONbig.parse(response.data))
+      setTweets(JSONbig.parse(JSON.stringify(response.data)))
     });
 
   }, [])
@@ -94,7 +94,10 @@ const Home: React.FC<Props> = (props: Props) => {
     ApiBaseRepository.get(`/tweets/search` + query)
       .then(response => {
         const JSONbig = require('json-bigint')({ "storeAsString": true })
-        setTweets(JSONbig.parse(response.data))
+        setTweets(JSONbig.parse(JSON.stringify(response.data)))
+      })
+      .catch(err => {
+        console.log(err)
       });
   }
 
