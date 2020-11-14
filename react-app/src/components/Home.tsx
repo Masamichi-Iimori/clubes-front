@@ -72,10 +72,11 @@ const Home: React.FC<Props> = (props: Props) => {
   const [tweets, setTweets] = useState<Array<Tweet>>([]);
 
   useEffect(() => {
-    ApiBaseRepository.get('/tweets', { transformResponse: [data => data] }).then(response => {
-      const JSONbig = require('json-bigint')({ "storeAsString": true })
-      setTweets(JSONbig.parse(JSON.stringify(response.data)))
-    });
+    ApiBaseRepository.get('/tweets')
+      .then(response => {
+        const JSONbig = require('json-bigint')({ "storeAsString": true })
+        setTweets(JSONbig.parse(JSON.stringify(response.data)))
+      });
 
   }, [])
 
@@ -103,7 +104,6 @@ const Home: React.FC<Props> = (props: Props) => {
 
   const tweetsList = tweets !== null && tweets.map((tweet: Tweet, index: number) => {
     let dateTime = new Date(tweet.tweeted_at * 1000);
-
     return (
       <Paper className={classes.paper} key={index}>
         <ListItem alignItems="flex-start">
