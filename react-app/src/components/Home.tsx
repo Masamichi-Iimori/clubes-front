@@ -68,13 +68,17 @@ type Props = OwnProps
 
 const Home: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
+  const JSONbig = require('json-bigint')({ "storeAsString": true })
 
   const [tweets, setTweets] = useState<Array<Tweet>>([]);
 
   useEffect(() => {
-    ApiBaseRepository.get('/tweets')
+    ApiBaseRepository.get('/tweets', {
+      transformResponse: [data => {
+        return JSONbig.parse(data)
+      }]
+    })
       .then(response => {
-        const JSONbig = require('json-bigint')({ "storeAsString": true })
         setTweets(JSONbig.parse(JSON.stringify(response.data)))
       });
 
@@ -92,7 +96,11 @@ const Home: React.FC<Props> = (props: Props) => {
     if (wordParams.length !== 0) {
       query += `words=${wordParams}&`
     }
-    ApiBaseRepository.get(`/tweets/search` + query)
+    ApiBaseRepository.get(`/tweets/search` + query, {
+      transformResponse: [data => {
+        return JSONbig.parse(data)
+      }]
+    })
       .then(response => {
         const JSONbig = require('json-bigint')({ "storeAsString": true })
         setTweets(JSONbig.parse(JSON.stringify(response.data)))
