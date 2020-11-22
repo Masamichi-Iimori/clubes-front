@@ -66,7 +66,10 @@ const useStyles = makeStyles((theme) => ({
   },
   searchButton: {
     margin: theme.spacing(2),
-  }
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 
@@ -88,6 +91,8 @@ const Search: React.FC<Props> = (props: Props) => {
 
   const positions = ['全て', 'ST', 'CF', 'LW', 'RW', 'CAM', 'CM', 'LM', 'RM', 'CDM',
     'LWB', 'RWB', 'LB', 'RB', 'CB', 'GK',];
+
+  const [time, setTime] = React.useState('');
 
   //const voiceChats = ['PS4', 'DisCord', 'VC不可', ''];
 
@@ -116,6 +121,9 @@ const Search: React.FC<Props> = (props: Props) => {
       setPositionNames(event.target.value);
     }
   };
+  const handleTimeChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setTime(event.target.value as string);
+  };
 
   // const handleVoiceChatChange = (event: any) => {
   //   setVoiceChat(event.target.value);
@@ -128,7 +136,26 @@ const Search: React.FC<Props> = (props: Props) => {
     <Card variant='outlined'>
       <Grid container spacing={1} justify="center" alignItems="center">
         <Grid item xs={12} md={6}>
-          <TextField id="freetext" label="自由検索" value={searchWord} variant="outlined" size="small" onChange={handleTextChange} className={classes.freeWordSearch} />
+          <FormControl className={classes.formControl}>
+            <InputLabel shrink id="tweetTimeInputLabel">ツイートされた時間で絞り込む</InputLabel>
+            <Select
+              labelId="tweetTimeLabel"
+              id="tweetTime"
+              value={time}
+              onChange={handleTimeChange}
+              displayEmpty
+              className={classes.selectEmpty}
+            >
+              <MenuItem value="">
+                <em>2時間以内</em>
+              </MenuItem>
+              <MenuItem value={"1hour"}>1時間以内</MenuItem>
+              <MenuItem value={"4hours"}>4時間以内</MenuItem>
+              <MenuItem value={"8hours"}>8時間以内</MenuItem>
+              <MenuItem value={"12hours"}>12時間以内</MenuItem>
+              <MenuItem value={"24hours"}>24時間以内</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
 
         <Grid item xs={12} md={6}>
@@ -158,13 +185,14 @@ const Search: React.FC<Props> = (props: Props) => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={2} md={6} />
-        <Grid item xs={8} md={6}>
+        <Grid item xs={12} md={6}>
+          <TextField id="freetext" label="自由検索" value={searchWord} variant="outlined" size="small" onChange={handleTextChange} className={classes.freeWordSearch} />
+        </Grid>
+        <Grid item xs={12} md={6}>
           <Button id="search" variant="contained" color="primary" startIcon={<SearchIcon />} className={classes.searchButton} onClick={() => props.handleSearch(positionNames, searchWord)}>
             検索する
 　　　      </Button>
         </Grid>
-        <Grid item xs={2} md={6} />
 
         {/* VCはとりあえずなし。（VCを募集内容に含めているツイートが少ないため）
         <Grid item xs={6} >
