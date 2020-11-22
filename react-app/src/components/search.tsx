@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 interface OwnProps {
-  handleSearch: (positions: string[], word: string) => void;
+  handleSearch: (positions: string[], word: string, time: number) => void;
 }
 
 type Props = OwnProps
@@ -92,7 +92,9 @@ const Search: React.FC<Props> = (props: Props) => {
   const positions = ['全て', 'ST', 'CF', 'LW', 'RW', 'CAM', 'CM', 'LM', 'RM', 'CDM',
     'LWB', 'RWB', 'LB', 'RB', 'CB', 'GK',];
 
-  const [time, setTime] = React.useState('');
+  const timeOption = [1, 2, 4, 8, 12, 24]
+
+  const [time, setTime] = React.useState(2);
 
   //const voiceChats = ['PS4', 'DisCord', 'VC不可', ''];
 
@@ -122,7 +124,7 @@ const Search: React.FC<Props> = (props: Props) => {
     }
   };
   const handleTimeChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setTime(event.target.value as string);
+    setTime(event.target.value as number);
   };
 
   // const handleVoiceChatChange = (event: any) => {
@@ -146,14 +148,11 @@ const Search: React.FC<Props> = (props: Props) => {
               displayEmpty
               className={classes.selectEmpty}
             >
-              <MenuItem value="">
-                <em>2時間以内</em>
-              </MenuItem>
-              <MenuItem value={"1hour"}>1時間以内</MenuItem>
-              <MenuItem value={"4hours"}>4時間以内</MenuItem>
-              <MenuItem value={"8hours"}>8時間以内</MenuItem>
-              <MenuItem value={"12hours"}>12時間以内</MenuItem>
-              <MenuItem value={"24hours"}>24時間以内</MenuItem>
+              {timeOption.map((t: number) =>
+                <MenuItem value={t}>
+                  {t}時間以内
+                </MenuItem>
+              )}
             </Select>
           </FormControl>
         </Grid>
@@ -189,7 +188,7 @@ const Search: React.FC<Props> = (props: Props) => {
           <TextField id="freetext" label="自由検索" value={searchWord} variant="outlined" size="small" onChange={handleTextChange} className={classes.freeWordSearch} />
         </Grid>
         <Grid item xs={12} md={6}>
-          <Button id="search" variant="contained" color="primary" startIcon={<SearchIcon />} className={classes.searchButton} onClick={() => props.handleSearch(positionNames, searchWord)}>
+          <Button id="search" variant="contained" color="primary" startIcon={<SearchIcon />} className={classes.searchButton} onClick={() => props.handleSearch(positionNames, searchWord, time)}>
             検索する
 　　　      </Button>
         </Grid>

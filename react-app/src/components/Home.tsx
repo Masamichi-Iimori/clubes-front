@@ -11,6 +11,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import Link from '@material-ui/core/Link';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,6 +72,7 @@ const Home: React.FC<Props> = (props: Props) => {
   const JSONbig = require('json-bigint')({ "storeAsString": true })
 
   const [tweets, setTweets] = useState<Array<Tweet>>([]);
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     ApiBaseRepository.get('/tweets', {
@@ -80,11 +82,12 @@ const Home: React.FC<Props> = (props: Props) => {
     })
       .then(response => {
         setTweets(JSONbig.parse(JSON.stringify(response.data)))
+        setIsLoading(false)
       });
 
   }, [])
 
-  const handleSearch = (positions: string[], word: string) => {
+  const handleSearch = (positions: string[], word: string, time: number) => {
     var query = '?'
     const positionParams = positions.join(',')
     const wordParams = word.replace("　", " ").split(' ').join(',')
@@ -96,6 +99,11 @@ const Home: React.FC<Props> = (props: Props) => {
     if (wordParams.length !== 0) {
       query += `words=${wordParams}&`
     }
+
+    query += `past_time=${time}&`
+
+    setIsLoading(true)
+
     ApiBaseRepository.get(`/tweets/search` + query, {
       transformResponse: [data => {
         return JSONbig.parse(data)
@@ -104,9 +112,11 @@ const Home: React.FC<Props> = (props: Props) => {
       .then(response => {
         const JSONbig = require('json-bigint')({ "storeAsString": true })
         setTweets(JSONbig.parse(JSON.stringify(response.data)))
+        setIsLoading(false)
       })
       .catch(err => {
         console.log(err)
+        setIsLoading(false)
       });
   }
 
@@ -164,13 +174,16 @@ const Home: React.FC<Props> = (props: Props) => {
         <Search handleSearch={handleSearch} />
         <Post />
       </div>
-      <List className={classes.list}>
+      {isLoading ? <CircularProgress />
+        :
+        <List className={classes.list}>
 
-        {tweetsList}
-        {tweets === null &&
-          <Typography>現在募集はありません</Typography>
-        }
-      </List>
+          {tweetsList}
+          {tweets === null &&
+            <Typography>現在募集はありません</Typography>
+          }
+        </List>
+      }
     </div>
 
   )
