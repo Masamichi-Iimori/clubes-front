@@ -1,4 +1,6 @@
 // components/Increment.tsx  
+import { RouteComponentProps } from 'react-router-dom'
+import { Helmet } from "react-helmet";
 import React, { useState, useEffect } from 'react';
 import { ApiBaseRepository } from '../utils/ApiBaseRepository'
 import Tweet from '../models/Tweet'
@@ -68,6 +70,7 @@ interface OwnProps { }
 type Props = OwnProps
 
 const Home: React.FC<Props> = (props: Props) => {
+
   const classes = useStyles();
   const JSONbig = require('json-bigint')({ "storeAsString": true })
 
@@ -170,6 +173,16 @@ const Home: React.FC<Props> = (props: Props) => {
 
   return (
     <div className={classes.root}>
+      <Helmet
+        title={'Hello World'}
+        meta={[
+          { name: 'twitter:card', content: 'summary' },
+          { property: 'og:image', content: 'https://proclub-front-bucket.s3-ap-northeast-1.amazonaws.com/logo.png' },
+          { property: 'og:title', content: 'Clubhub' },
+          { property: 'og:description', content: 'プロクラブマッチングサービス' },
+          { property: 'og:url', content: `https://clubhub.ga` }
+        ]}
+      />
       <div className={classes.buttonArea}>
         <Search handleSearch={handleSearch} />
         <Post />
