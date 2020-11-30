@@ -288,11 +288,9 @@ const Post: React.FC<Props> = (props: Props) => {
             </Grid>
 
             <div className={classes.buttonbox}>
-              <Button variant="contained" color="primary" className={classes.tweetbutton}>
-                <TwitterShareButton className={classes.twitterShareButton} title={articleTitle} hashtags={clubsHashtags} url={'https://clubes.ml/'}
-                >
-                  募集する
-              </TwitterShareButton>
+              <Button variant="contained" color="primary" href={`http://twitter.com/share?url=https://clubhub.ga&text=募集ポジション：${position}%0aフォーメーション：${formation}%0a活動頻度：${activityFrequency}
+               %0a活動時間帯：${activityStartTime} ～${activityEndTime}%0aボイスチャット：${voiceChat}%0a${textArea} %0a &hashtags=${clubsHashtags}`} className={classes.tweetbutton} data-url="https://clubhub.ga" data-show-count="false">
+                募集する
               </Button>
               <Button variant="contained" onClick={handleClose} className={classes.cancelbutton}>キャンセル</Button>
             </div>

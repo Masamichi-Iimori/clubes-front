@@ -1,4 +1,6 @@
 // components/Increment.tsx  
+import { RouteComponentProps } from 'react-router-dom'
+import { Helmet } from "react-helmet";
 import React, { useState, useEffect } from 'react';
 import { ApiBaseRepository } from '../utils/ApiBaseRepository'
 import Tweet from '../models/Tweet'
@@ -11,6 +13,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import Link from '@material-ui/core/Link';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,20 +70,27 @@ interface OwnProps { }
 type Props = OwnProps
 
 const Home: React.FC<Props> = (props: Props) => {
+
   const classes = useStyles();
+  const JSONbig = require('json-bigint')({ "storeAsString": true })
 
   const [tweets, setTweets] = useState<Array<Tweet>>([]);
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    ApiBaseRepository.get('/tweets')
+    ApiBaseRepository.get('/tweets', {
+      transformResponse: [data => {
+        return JSONbig.parse(data)
+      }]
+    })
       .then(response => {
-        const JSONbig = require('json-bigint')({ "storeAsString": true })
         setTweets(JSONbig.parse(JSON.stringify(response.data)))
+        setIsLoading(false)
       });
 
   }, [])
 
-  const handleSearch = (positions: string[], word: string) => {
+  const handleSearch = (positions: string[], word: string, time: number) => {
     var query = '?'
     const positionParams = positions.join(',')
     const wordParams = word.replace("　", " ").split(' ').join(',')
@@ -92,13 +102,24 @@ const Home: React.FC<Props> = (props: Props) => {
     if (wordParams.length !== 0) {
       query += `words=${wordParams}&`
     }
-    ApiBaseRepository.get(`/tweets/search` + query)
+
+    query += `past_time=${time}&`
+
+    setIsLoading(true)
+
+    ApiBaseRepository.get(`/tweets/search` + query, {
+      transformResponse: [data => {
+        return JSONbig.parse(data)
+      }]
+    })
       .then(response => {
         const JSONbig = require('json-bigint')({ "storeAsString": true })
         setTweets(JSONbig.parse(JSON.stringify(response.data)))
+        setIsLoading(false)
       })
       .catch(err => {
         console.log(err)
+        setIsLoading(false)
       });
   }
 
@@ -152,17 +173,30 @@ const Home: React.FC<Props> = (props: Props) => {
 
   return (
     <div className={classes.root}>
+      <Helmet
+        title={'Hello World'}
+        meta={[
+          { name: 'twitter:card', content: 'summary' },
+          { property: 'og:image', content: 'https://proclub-front-bucket.s3-ap-northeast-1.amazonaws.com/logo.png' },
+          { property: 'og:title', content: 'Clubhub' },
+          { property: 'og:description', content: 'プロクラブマッチングサービス' },
+          { property: 'og:url', content: `https://clubhub.ga` }
+        ]}
+      />
       <div className={classes.buttonArea}>
         <Search handleSearch={handleSearch} />
         <Post />
       </div>
-      <List className={classes.list}>
+      {isLoading ? <CircularProgress />
+        :
+        <List className={classes.list}>
 
-        {tweetsList}
-        {tweets === null &&
-          <Typography>現在募集はありません</Typography>
-        }
-      </List>
+          {tweetsList}
+          {tweets === null &&
+            <Typography>現在募集はありません</Typography>
+          }
+        </List>
+      }
     </div>
 
   )
