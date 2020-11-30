@@ -174,7 +174,7 @@ const Home: React.FC<Props> = (props: Props) => {
   return (
     <div className={classes.root}>
       <Helmet
-        title={'Hello World'}
+        title={'Clubhub'}
         meta={[
           { name: 'twitter:card', content: 'summary' },
           { property: 'og:image', content: 'https://proclub-front-bucket.s3-ap-northeast-1.amazonaws.com/logo.png' },
