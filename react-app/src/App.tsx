@@ -13,7 +13,7 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet';
 
 const useStyles = makeStyles(theme => ({
   offset: theme.mixins.toolbar,
