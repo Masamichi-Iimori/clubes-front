@@ -30,9 +30,9 @@ const App: React.FC = () => {
             title={'Clubhub'}
             meta={[
               { name: 'twitter:card', content: 'summary' },
-              { name: 'twitter:site', content: '@akameco' },
               { name: 'twitter:title', content: 'Clubhub' },
-              { name: 'twitter:discription', content: 'プロクラブマッチングサービス' },
+              { name: 'twitter:description', content: 'プロクラブマッチングサービス' },
+              { name: 'twitter:image', content: 'https://proclub-front-bucket.s3-ap-northeast-1.amazonaws.com/logo.png' },
               { property: 'og:image', content: 'https://proclub-front-bucket.s3-ap-northeast-1.amazonaws.com/logo.png' },
               { property: 'og:title', content: 'Clubhub' },
               { property: 'og:description', content: 'プロクラブマッチングサービス' },
