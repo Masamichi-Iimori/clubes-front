@@ -1,17 +1,26 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM, { hydrate, render } from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { render } from 'react-snapshot';
+// import { render } from 'react-snapshot';
 
 
-// const rootElement = document.getElementById("root");
-// if (rootElement != null && rootElement.hasChildNodes()) {
-//   hydrate(<App />, rootElement);
-// } else {
-//   render(<App />, rootElement);
-// }]
+// snapのとき
+const rootElement = document.getElementById("root");
+if (rootElement != null && rootElement.hasChildNodes()) {
+  hydrate(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+    rootElement);
+} else {
+  render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+    rootElement);
+}
 
 
 // ReactDOM.render(
@@ -22,12 +31,13 @@ import { render } from 'react-snapshot';
 
 // );
 
-render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+// snapshotのとき
+// render(
+//   <React.StrictMode>
+//     <App />
+//   </React.StrictMode>,
+//   document.getElementById('root')
+// );
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
