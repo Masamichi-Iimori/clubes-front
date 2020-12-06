@@ -190,7 +190,7 @@ const Search: React.FC<Props> = (props: Props) => {
         <Grid item xs={12} md={6}>
           <Button id="search" variant="contained" color="primary" startIcon={<SearchIcon />} className={classes.searchButton} onClick={() => props.handleSearch(positionNames, searchWord, time)}>
             検索
-　　　      </Button>
+　　　     </Button>
         </Grid>
 
         {/* VCはとりあえずなし。（VCを募集内容に含めているツイートが少ないため）
