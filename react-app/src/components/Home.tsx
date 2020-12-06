@@ -1,6 +1,4 @@
 // components/Increment.tsx  
-import { RouteComponentProps } from 'react-router-dom'
-import { Helmet } from "react-helmet";
 import React, { useState, useEffect } from 'react';
 import { ApiBaseRepository } from '../utils/ApiBaseRepository'
 import Tweet from '../models/Tweet'

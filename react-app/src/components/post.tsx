@@ -8,9 +8,6 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Modal from '@material-ui/core/Modal';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
-import {
-  TwitterShareButton,
-} from 'react-share';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
