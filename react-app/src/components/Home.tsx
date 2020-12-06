@@ -173,16 +173,6 @@ const Home: React.FC<Props> = (props: Props) => {
 
   return (
     <div className={classes.root}>
-      <Helmet
-        title={'Clubhub'}
-        meta={[
-          { name: 'twitter:card', content: 'summary' },
-          { property: 'og:image', content: 'https://proclub-front-bucket.s3-ap-northeast-1.amazonaws.com/logo.png' },
-          { property: 'og:title', content: 'Clubhub' },
-          { property: 'og:description', content: 'プロクラブマッチングサービス' },
-          { property: 'og:url', content: `https://clubhub.ga` }
-        ]}
-      />
       <div className={classes.buttonArea}>
         <Search handleSearch={handleSearch} />
         <Post />

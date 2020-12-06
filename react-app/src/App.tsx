@@ -13,6 +13,7 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles(theme => ({
   offset: theme.mixins.toolbar,
@@ -25,6 +26,19 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <Router>
         <div>
+          <Helmet
+            title={'Clubhub'}
+            meta={[
+              { name: 'twitter:card', content: 'summary' },
+              { name: 'twitter:site', content: '@akameco' },
+              { name: 'twitter:title', content: 'Clubhub' },
+              { name: 'twitter:discription', content: 'プロクラブマッチングサービス' },
+              { property: 'og:image', content: 'https://proclub-front-bucket.s3-ap-northeast-1.amazonaws.com/logo.png' },
+              { property: 'og:title', content: 'Clubhub' },
+              { property: 'og:description', content: 'プロクラブマッチングサービス' },
+              { property: 'og:url', content: `https://clubhub.ga` },
+            ]}
+          />
           <Header />
           <div className={classes.offset} />
           <Switch>
