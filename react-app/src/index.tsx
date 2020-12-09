@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { render } from 'react-snapshot';
 
 
-// snapのとき
+// snap
 // const rootElement = document.getElementById("root");
 // if (rootElement != null && rootElement.hasChildNodes()) {
 //   hydrate(
@@ -27,7 +27,7 @@ import { render } from 'react-snapshot';
 
 // );
 
-// snapshotのとき
+// snapshot
 render(
   <React.StrictMode>
     <App />
