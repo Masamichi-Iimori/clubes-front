@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
   searchButton: {
-    margin: theme.spacing(2),
+    textAlign: 'center'
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -136,7 +136,7 @@ const Search: React.FC<Props> = (props: Props) => {
   };
   return (
     <Card variant='outlined'>
-      <Grid container spacing={1} justify="center" alignItems="center">
+      <Grid container spacing={1} justify="center" alignItems="center" alignContent="center">
         <Grid item xs={12} md={6}>
           <FormControl className={classes.formControl}>
             <InputLabel shrink id="tweetTimeInputLabel">ツイートされた時間で絞り込む</InputLabel>
@@ -185,10 +185,10 @@ const Search: React.FC<Props> = (props: Props) => {
           </FormControl>
         </Grid>
         <Grid item xs={12} md={6}>
-          <TextField id="freetext" label="自由検索" value={searchWord} variant="outlined" size="small" onChange={handleTextChange} className={classes.freeWordSearch} />
+          <TextField id="freetext" label="フリー検索" value={searchWord} variant="outlined" size="small" onChange={handleTextChange} className={classes.freeWordSearch} />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Button id="search" variant="contained" color="primary" startIcon={<SearchIcon />} className={classes.searchButton} onClick={() => props.handleSearch(positionNames, searchWord, time)}>
+        <Grid item xs={12} md={6} className={classes.searchButton}>
+          <Button id="search" variant="contained" color="primary" startIcon={<SearchIcon />} style={{ margin: theme.spacing(2) }} onClick={() => props.handleSearch(positionNames, searchWord, time)}>
             検索
 　　　     </Button>
         </Grid>
