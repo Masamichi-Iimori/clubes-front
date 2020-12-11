@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
   list: {
+    width: '50%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline',
   },
   paper: {
-    width: '50%',
+    width: '100%',
     minWidth: 400,
     margin: theme.spacing(1)
   },
@@ -60,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     margin: theme.spacing(0, 7)
+  },
+  paperContent: {
+    width: '100%',
   }
 
 }));
@@ -133,7 +137,7 @@ const Home: React.FC<Props> = (props: Props) => {
                 <AccountCircleIcon style={{ fontSize: 40 }} color='action' />
             }
           </ListItemAvatar>
-          <div >
+          <div className={classes.paperContent}>
             <div className={classes.paperUpper}>
               <div className={classes.userInfo}>
                 <Typography color="textPrimary">{tweet.user.name}</Typography>

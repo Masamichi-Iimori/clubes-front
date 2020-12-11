@@ -115,8 +115,6 @@ const Post: React.FC<Props> = (props: Props) => {
   const [voiceChat, setVoiceChat] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [textArea, setText] = React.useState('');
-  const articleTitle = "募集ポジション：" + position + "\nフォーメーション：" + formation + "\n活動頻度：" + activityFrequency
-    + "\n活動時間帯：" + activityStartTime + "～" + activityEndTime + "\nボイスチャット：" + voiceChat + "\n" + textArea + "\n"
   const handleActivityFrequencyChange = (event: any) => {
     setActivityFrequency(event.target.value);
   };
@@ -286,7 +284,7 @@ const Post: React.FC<Props> = (props: Props) => {
 
             <div className={classes.buttonbox}>
               <Button variant="contained" color="primary" href={`http://twitter.com/share?url=https://clubhub.ga&text=募集ポジション：${position}%0aフォーメーション：${formation}%0a活動頻度：${activityFrequency}
-               %0a活動時間帯：${activityStartTime} ～${activityEndTime}%0aボイスチャット：${voiceChat}%0a${textArea} %0a &hashtags=${clubsHashtags}`} className={classes.tweetbutton} data-url="https://clubhub.ga" data-show-count="false">
+               %0a活動時間帯：${activityStartTime} ～${activityEndTime}%0aボイスチャット：${voiceChat}%0a${textArea} %0a &hashtags=${clubsHashtags}`} className={classes.tweetbutton} data-url="https://clubhub.ga" data-show-count="false" target="_blank" rel="noopener noreferrer">
                 募集する
               </Button>
               <Button variant="contained" onClick={handleClose} className={classes.cancelbutton}>キャンセル</Button>
