@@ -48,7 +48,7 @@ const App: React.FC = () => {
             <Route path='/about'>
               <About />
             </Route>
-            <Route path='/' exact={true}>
+            <Route path='/' exact={true} key={document.location.href}>
               <Home />
             </Route>
           </Switch>

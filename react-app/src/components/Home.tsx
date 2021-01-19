@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ApiBaseRepository } from '../utils/ApiBaseRepository'
 import Tweet from '../models/Tweet'
-import { makeStyles, Paper, ListItemAvatar, Chip, Typography, IconButton } from '@material-ui/core';
+import { makeStyles, Paper, ListItemAvatar, Chip, Typography, IconButton, Button } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Post from './post'
@@ -11,7 +11,12 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import Link from '@material-ui/core/Link';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import EmailIcon from '@material-ui/icons/Email';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useLocation } from 'react-router-dom'
+import { useCookies } from 'react-cookie';
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,9 +80,11 @@ const Home: React.FC<Props> = (props: Props) => {
 
   const classes = useStyles();
   const JSONbig = require('json-bigint')({ "storeAsString": true })
+  const location = useLocation();
 
   const [tweets, setTweets] = useState<Array<Tweet>>([]);
   const [isLoading, setIsLoading] = useState(true)
+  const [cookies, setCookie, removeCookie] = useCookies(['oauth_id', 'session_id', 'screen_name', 'user_id']);
 
   useEffect(() => {
     ApiBaseRepository.get('/tweets', {
@@ -165,9 +172,18 @@ const Home: React.FC<Props> = (props: Props) => {
               />
             )}
           </div>
-          <IconButton edge="start" color="inherit" aria-label="menu" href={`https://twitter.com/${tweet.user.screen_name}/status/${tweet.tweet_id}`} target="_blank">
-            <OpenInNewIcon />
-          </IconButton>
+          <div>
+            {cookies.user_id &&
+              <IconButton edge="start" color="inherit" aria-label="menu" href={`https://twitter.com/messages/${cookies.user_id}-${tweet.user.id}`} target="_blank">
+                <EmailIcon color='action' />
+              </IconButton>
+            }
+
+            <IconButton edge="start" color="inherit" aria-label="menu" href={`https://twitter.com/${tweet.user.screen_name}/status/${tweet.tweet_id}`} target="_blank">
+              <OpenInNewIcon color='action' />
+            </IconButton>
+          </div>
+
         </div>
       </Paper>
     )
@@ -179,6 +195,7 @@ const Home: React.FC<Props> = (props: Props) => {
         <Search handleSearch={handleSearch} />
         <Post />
       </div>
+
       {isLoading ? <CircularProgress />
         :
         <List className={classes.list}>
