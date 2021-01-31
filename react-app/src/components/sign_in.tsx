@@ -59,7 +59,6 @@ const SignUp: React.FC<Props> = (props: Props) => {
   const [password, setPassword] = useState("");
 
   const handleChange = (event: any) => {
-    console.log(event.target)
     switch (event.target.name) {
       case 'email':
         setEmail(event.target.value);
@@ -76,7 +75,6 @@ const SignUp: React.FC<Props> = (props: Props) => {
     const data = { email: email, password: password };
     axios.post('http://localhost:3000/api/v1/login', data).then((response: any) => {
       console.log(response.data);
-      debugger
     });
     event.preventDefault();
   };

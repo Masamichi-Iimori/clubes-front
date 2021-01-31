@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -10,8 +10,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { Divider, Drawer } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Avatar, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Drawer, Menu, MenuItem } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { Button } from '@material-ui/core';
+import { ApiBaseRepository } from 'utils/ApiBaseRepository';
+import { useHistory } from 'react-router-dom';
+
 
 const drawerWidth = 240;
 
@@ -80,13 +86,82 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  avater: {
+    margin: theme.spacing(0, 1)
+  },
+  loadingToTwitter: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  }
 }));
 
 export default function Header() {
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
 
-  const [open, setOpen] = React.useState(false);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const profileOpen = Boolean(anchorEl);
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const [cookies, setCookie, removeCookie] = useCookies(['oauth_id', 'session_id', 'screen_name', 'user_id']);
+  const [redirecting, setRedirecting] = useState(false)
+
+  const [profileUrl, setProfileUrl] = useState('')
+
+  useEffect(() => {
+
+    let urlParamStr = window.location.search.substring(1)
+
+    let params = {}
+
+    //urlパラメータをオブジェクトにまとめる
+    urlParamStr.split('&').forEach(param => {
+      const temp = param.split('=')
+      //pramsオブジェクトにパラメータを追加
+      params = {
+        ...params,
+        [temp[0]]: temp[1]
+      }
+    })
+
+    if ("oauth_token" in params && "oauth_verifier" in params && cookies.oauth_id) {
+      ApiBaseRepository.get(`/twitter/callback?oauth_token=${params['oauth_token']}&oauth_verifier=${params['oauth_verifier']}&session_id=${cookies.oauth_id}`)
+        .then(response => {
+          console.log(response)
+          removeCookie("oauth_id")
+          setCookie('session_id', response.data.id)
+          setCookie('screen_name', response.data.screen_name)
+          setCookie('user_id', response.data.user_id)
+          ApiBaseRepository.get(`/twitter/me?session_id=${response.data.id}`)
+            .then(response => {
+              setProfileUrl(response.data.profile_image_url)
+              history.push('/')
+            });
+        });
+
+    }
+
+
+    if (cookies.session_id) {
+      ApiBaseRepository.get(`/twitter/me?session_id=${cookies.session_id}`)
+        .then(response => {
+          setProfileUrl(response.data.profile_image_url)
+        });
+    }
+  }, [cookies, history, removeCookie, setCookie])
+
+  const handleProfileMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleProfileMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   const sidebarList: Array<{ value: string, path: string }> = [
     {
@@ -106,13 +181,42 @@ export default function Header() {
   ))
 
   const handleDrawerOpen = () => {
-    setOpen(true);
+    setDrawerOpen(true);
   };
 
   const handleDrawerClose = () => {
-    setOpen(false);
+    setDrawerOpen(false);
   };
 
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleLogout = () => {
+    handleDialogOpen()
+  }
+
+  const handleLogoutYes = () => {
+    removeCookie("session_id")
+    removeCookie("screen_name")
+    removeCookie("user_id")
+    handleDialogClose()
+    history.push('/')
+  }
+
+  const handleLoginYes = () => {
+    setRedirecting(true)
+    ApiBaseRepository.get('/twitter/sign_in')
+      .then(response => {
+        setCookie('oauth_id', response.data.oauth_token_id)
+        // window.open(response.data.authorize_url)
+        window.location.assign(response.data.authorize_url);
+      });
+  }
 
 
   return (
@@ -120,7 +224,7 @@ export default function Header() {
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
+          [classes.appBarShift]: drawerOpen,
         })}
       >
         <Toolbar>
@@ -129,27 +233,112 @@ export default function Header() {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
+            className={clsx(classes.menuButton, drawerOpen && classes.hide)}
           >
             <MenuIcon />
           </IconButton>
-          <div className={classes.titles}>
-            {/* <Typography variant="h6" className={classes.title}>
-              Clubes
-            </Typography> */}
+
+          <div className={classes.title}>
             <Logo width={160} />
-            {/* <Typography variant="h6" className={classes.title}>
-              プロクラブ検索サービス
-            </Typography> */}
           </div>
+          {cookies.session_id ?
+            <>
+              <Button
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleProfileMenu}
+                color="inherit"
+              >
+                <Avatar className={classes.avater} src={profileUrl} />
+              </Button>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={profileOpen}
+                onClose={handleProfileMenuClose}
+              >
+                <MenuItem disabled>{cookies.screen_name}でログインしています</MenuItem>
+                <MenuItem onClick={handleLogout}>ログアウト</MenuItem>
+              </Menu>
+
+              <Dialog
+                open={dialogOpen}
+                onClose={handleDialogClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">{"ログアウトします。よろしいですか？"}</DialogTitle>
+                <DialogActions>
+                  <Button onClick={handleLogoutYes} color="primary">
+                    はい
+                  </Button>
+                  <Button onClick={handleDialogClose} color="primary" autoFocus>
+                    いいえ
+                  </Button>
+                </DialogActions>
+              </Dialog>
+
+            </>
+            :
+            <>
+              <Button onClick={handleDialogOpen} color='inherit' style={{ textTransform: 'none' }}>Twitterと連携する</Button>
+
+              <Dialog
+                open={dialogOpen}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                {redirecting ?
+                  <DialogContent className={classes.loadingToTwitter}>
+                    <CircularProgress />
+                    <DialogContentText id="alert-dialog-description">
+                      Twitterに移動します...
+                    </DialogContentText>
+                  </DialogContent>
+
+                  :
+                  <>
+                    <DialogTitle id="alert-dialog-title">{"Twitterアカウントと連携します。よろしいですか？"}</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        TwitterのDM機能などを使用できるようになります。
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleLoginYes} color="primary">
+                        はい
+                    </Button>
+                      <Button onClick={handleDialogClose} color="primary" autoFocus>
+                        いいえ
+                    </Button>
+                    </DialogActions>
+                  </>
+                }
+
+
+              </Dialog>
+            </>
+          }
+
         </Toolbar>
+
       </AppBar>
 
       <Drawer
         className={classes.drawer}
         variant="persistent"
         anchor="left"
-        open={open}
+        open={drawerOpen}
         classes={{
           paper: classes.drawerPaper,
         }}
@@ -162,6 +351,10 @@ export default function Header() {
         <Divider />
         {list}
       </Drawer>
+
+
+
+
 
     </div>
   );

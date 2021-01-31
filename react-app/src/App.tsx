@@ -13,7 +13,7 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles(theme => ({
   offset: theme.mixins.toolbar,
@@ -48,7 +48,7 @@ const App: React.FC = () => {
             <Route path='/about'>
               <About />
             </Route>
-            <Route path='/' exact={true}>
+            <Route path='/' exact={true} key={document.location.href}>
               <Home />
             </Route>
           </Switch>

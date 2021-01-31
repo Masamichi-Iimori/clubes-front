@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { render } from 'react-snapshot';
+import { CookiesProvider } from 'react-cookie'	// ←react-cookeもモジュールを読み込む
+
 
 
 // snap
@@ -30,7 +32,9 @@ import { render } from 'react-snapshot';
 // snapshot
 render(
   <React.StrictMode>
-    <App />
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
