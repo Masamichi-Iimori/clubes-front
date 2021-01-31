@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "clubhub8127742a": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

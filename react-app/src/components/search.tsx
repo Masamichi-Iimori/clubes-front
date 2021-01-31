@@ -149,7 +149,7 @@ const Search: React.FC<Props> = (props: Props) => {
               className={classes.selectEmpty}
             >
               {timeOption.map((t: number) =>
-                <MenuItem value={t}>
+                <MenuItem key={t} value={t}>
                   {t}時間以内
                 </MenuItem>
               )}
