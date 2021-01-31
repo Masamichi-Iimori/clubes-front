@@ -153,7 +153,7 @@ export default function Header() {
           setProfileUrl(response.data.profile_image_url)
         });
     }
-  }, [])
+  }, [cookies, history, removeCookie, setCookie])
 
   const handleProfileMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -291,7 +291,7 @@ export default function Header() {
             </>
             :
             <>
-              <Button onClick={handleDialogOpen}>Twitterと連携</Button>
+              <Button onClick={handleDialogOpen} color='inherit' style={{ textTransform: 'none' }}>Twitterと連携する</Button>
 
               <Dialog
                 open={dialogOpen}
@@ -309,7 +309,11 @@ export default function Header() {
                   :
                   <>
                     <DialogTitle id="alert-dialog-title">{"Twitterアカウントと連携します。よろしいですか？"}</DialogTitle>
-
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        TwitterのDM機能などを使用できるようになります。
+                    </DialogContentText>
+                    </DialogContent>
                     <DialogActions>
                       <Button onClick={handleLoginYes} color="primary">
                         はい

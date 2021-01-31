@@ -2,9 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { ApiBaseRepository } from '../utils/ApiBaseRepository'
 import Tweet from '../models/Tweet'
-import { makeStyles, Paper, ListItemAvatar, Chip, Typography, IconButton, Button } from '@material-ui/core';
+import { makeStyles, Paper, Chip, Typography, IconButton, CardActionArea, Card, CardMedia, Grid } from '@material-ui/core';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import Post from './post'
 import Search from './search'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -13,9 +12,7 @@ import Link from '@material-ui/core/Link';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import EmailIcon from '@material-ui/icons/Email';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { useLocation } from 'react-router-dom'
 import { useCookies } from 'react-cookie';
-
 
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-
   },
   list: {
     width: '50%',
@@ -37,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     width: '100%',
     minWidth: 400,
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
+    padding: theme.spacing(1, 3)
   },
   buttonArea: {
     display: 'flex',
@@ -65,10 +62,12 @@ const useStyles = makeStyles((theme) => ({
   paperBottom: {
     display: "flex",
     justifyContent: "space-between",
-    margin: theme.spacing(0, 7)
   },
   paperContent: {
     width: '100%',
+  },
+  card: {
+    margin: theme.spacing(0.5)
   }
 
 }));
@@ -79,14 +78,12 @@ type Props = OwnProps
 const Home: React.FC<Props> = (props: Props) => {
 
   const classes = useStyles();
-  const JSONbig = require('json-bigint')({ "storeAsString": true })
-  const location = useLocation();
-
   const [tweets, setTweets] = useState<Array<Tweet>>([]);
   const [isLoading, setIsLoading] = useState(true)
-  const [cookies, setCookie, removeCookie] = useCookies(['oauth_id', 'session_id', 'screen_name', 'user_id']);
+  const [cookies] = useCookies(['oauth_id', 'session_id', 'screen_name', 'user_id']);
 
   useEffect(() => {
+    const JSONbig = require('json-bigint')({ "storeAsString": true })
     ApiBaseRepository.get('/tweets', {
       transformResponse: [data => {
         return JSONbig.parse(data)
@@ -101,6 +98,7 @@ const Home: React.FC<Props> = (props: Props) => {
 
   const handleSearch = (positions: string[], word: string, time: number) => {
     var query = '?'
+    const JSONbig = require('json-bigint')({ "storeAsString": true })
     const positionParams = positions.join(',')
     const wordParams = word.replace("　", " ").split(' ').join(',')
 
@@ -136,31 +134,56 @@ const Home: React.FC<Props> = (props: Props) => {
     let dateTime = new Date(tweet.tweeted_at * 1000);
     return (
       <Paper className={classes.paper} key={index}>
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
+        <div className={classes.paperUpper}>
+          <div className={classes.userInfo}>
             {
               tweet.is_club ?
                 <ApartmentIcon style={{ fontSize: 40 }} color='action' /> :
                 <AccountCircleIcon style={{ fontSize: 40 }} color='action' />
             }
-          </ListItemAvatar>
-          <div className={classes.paperContent}>
-            <div className={classes.paperUpper}>
-              <div className={classes.userInfo}>
-                <Typography color="textPrimary">{tweet.user.name}</Typography>
-                {/* <Typography color="textSecondary">@{tweet.user.screen_name}</Typography> */}
 
-                <Link href={`https://twitter.com/${tweet.user.screen_name}`} target="_blank" color="textSecondary">
-                  @{tweet.user.screen_name}
-                </Link>
-              </div>
-              <Typography color="textSecondary">{getStringFromDate(dateTime)}</Typography>
-            </div>
+            <Typography color="textPrimary">{tweet.user.name}</Typography>
 
-            <Typography color="textPrimary">{tweet.full_text}</Typography>
+
+            <Link href={`https://twitter.com/${tweet.user.screen_name}`} target="_blank" color="textSecondary">
+              @{tweet.user.screen_name}
+            </Link>
           </div>
 
-        </ListItem>
+          <Typography color="textSecondary">{getStringFromDate(dateTime)}</Typography>
+
+        </div>
+
+
+        <div className={classes.paperContent}>
+
+
+
+          <Typography color="textPrimary">{tweet.full_text}</Typography>
+          <Grid container justify="center">
+
+            {tweet.media_url.length > 0 &&
+
+              tweet.media_url.map((media_url: string, index: number) => (
+                <Grid item xs={12} md={6} key={index}>
+                  <Card className={classes.card}>
+
+                    <CardActionArea disabled>
+                      <CardMedia
+                        component="img"
+                        alt="Contemplative Reptile"
+                        image={media_url}
+                        title="Contemplative Reptile"
+                      />
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              ))
+            }
+          </Grid>
+
+        </div>
+
         <div className={classes.paperBottom}>
           <div className={classes.positionTag}>
             {tweet.positions && tweet.positions.map((position: string, index: number) =>
@@ -185,7 +208,7 @@ const Home: React.FC<Props> = (props: Props) => {
           </div>
 
         </div>
-      </Paper>
+      </Paper >
     )
   })
 

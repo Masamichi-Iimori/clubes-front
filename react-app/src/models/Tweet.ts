@@ -4,6 +4,7 @@ export default interface Tweet {
   tweeted_at: number,
   is_club: boolean,
   positions: string[],
+  media_url: string[],
   user: User
 }
 
