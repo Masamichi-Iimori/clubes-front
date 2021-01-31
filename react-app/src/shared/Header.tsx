@@ -291,7 +291,7 @@ export default function Header() {
             </>
             :
             <>
-              <Button onClick={handleDialogOpen} color='inherit' style={{ textTransform: 'none' }}>Twitterと連携する</Button>
+              <Button onClick={handleDialogOpen} color='inherit' style={{ textTransform: 'none' }}>Twitterと連携</Button>
 
               <Dialog
                 open={dialogOpen}
